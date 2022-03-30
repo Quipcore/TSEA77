@@ -41,7 +41,6 @@
 *.su
 *.idb
 *.pdb
-/Debug
 
 # Kernel Module Compile Results
 *.mod*
@@ -55,3 +54,5 @@ dkms.conf
 
 #Other
 .vs/
+*.bak
+/Debug
