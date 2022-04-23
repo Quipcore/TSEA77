@@ -1,0 +1,42 @@
+<ASSEMBLER_INFO>
+ <VERSION>2.2.8</VERSION>
+ <DEVICE>"ATmega16A"</DEVICE>
+ <WORKING_DIR>D:\Code repositories\Skola\TSEA77\labb2\Debug</WORKING_DIR>
+ <INCLUDE_PATH>
+  <DIR>D:/Programs\Microchip Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\avrasm\inc</DIR>
+  <DIR>D:\Programs\Microchip Studio\7.0\toolchain\avr8\avrassembler\Include</DIR>
+  <DIR></DIR>
+ </INCLUDE_PATH>
+ <SOURCE_FILE>D:\Code repositories\Skola\TSEA77\labb2\main.asm</SOURCE_FILE>
+ <INCLUDED_FILES>
+  <FILE>D:/Programs\Microchip Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\avrasm\inc\m16Adef.inc</FILE>
+ </INCLUDED_FILES>
+ <OBJECT_FILES>
+  <FILE>D:\Code repositories\Skola\TSEA77\labb2\Debug\labb2.obj</FILE>
+ </OBJECT_FILES>
+ <HEX_FILES>
+  <FILE>labb2.hex</FILE>
+ </HEX_FILES>
+ <OUTPUT_FILES>
+  <FILE>labb2.map</FILE>
+  <FILE>labb2.lss</FILE>
+ </OUTPUT_FILES>
+ <LABELS>
+  <BTAB><FILE>D:\Code repositories\Skola\TSEA77\labb2\main.asm</FILE><LINE>9</LINE></BTAB>
+  <MESSAGE><FILE>D:\Code repositories\Skola\TSEA77\labb2\main.asm</FILE><LINE>13</LINE></MESSAGE>
+  <SETUP><FILE>D:\Code repositories\Skola\TSEA77\labb2\main.asm</FILE><LINE>19</LINE></SETUP>
+  <RESET><FILE>D:\Code repositories\Skola\TSEA77\labb2\main.asm</FILE><LINE>31</LINE></RESET>
+  <MORSE><FILE>D:\Code repositories\Skola\TSEA77\labb2\main.asm</FILE><LINE>34</LINE></MORSE>
+  <GET_CHAR><FILE>D:\Code repositories\Skola\TSEA77\labb2\main.asm</FILE><LINE>45</LINE></GET_CHAR>
+  <ONE_CHAR><FILE>D:\Code repositories\Skola\TSEA77\labb2\main.asm</FILE><LINE>48</LINE></ONE_CHAR>
+  <BEEP_CHAR><FILE>D:\Code repositories\Skola\TSEA77\labb2\main.asm</FILE><LINE>51</LINE></BEEP_CHAR>
+  <LOOKUP><FILE>D:\Code repositories\Skola\TSEA77\labb2\main.asm</FILE><LINE>54</LINE></LOOKUP>
+  <LOOP><FILE>D:\Code repositories\Skola\TSEA77\labb2\main.asm</FILE><LINE>60</LINE></LOOP>
+  <SEND><FILE>D:\Code repositories\Skola\TSEA77\labb2\main.asm</FILE><LINE>76</LINE></SEND>
+  <GET_BIT><FILE>D:\Code repositories\Skola\TSEA77\labb2\main.asm</FILE><LINE>79</LINE></GET_BIT>
+  <SEND_BIT><FILE>D:\Code repositories\Skola\TSEA77\labb2\main.asm</FILE><LINE>82</LINE></SEND_BIT>
+  <BIT><FILE>D:\Code repositories\Skola\TSEA77\labb2\main.asm</FILE><LINE>85</LINE></BIT>
+  <BEEP><FILE>D:\Code repositories\Skola\TSEA77\labb2\main.asm</FILE><LINE>88</LINE></BEEP>
+  <NOBEEP><FILE>D:\Code repositories\Skola\TSEA77\labb2\main.asm</FILE><LINE>91</LINE></NOBEEP>
+ </LABELS>
+</ASSEMBLER_INFO>
