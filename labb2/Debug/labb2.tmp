@@ -1,18 +1,18 @@
 <ASSEMBLER_INFO>
  <VERSION>2.2.8</VERSION>
  <DEVICE>"ATmega16A"</DEVICE>
- <WORKING_DIR>D:\Code repositories\Skola\TSEA77\labb2\Debug</WORKING_DIR>
+ <WORKING_DIR>C:\Users\Felix\Projects\TSEA77\labb2\Debug</WORKING_DIR>
  <INCLUDE_PATH>
-  <DIR>D:/Programs\Microchip Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\avrasm\inc</DIR>
-  <DIR>D:\Programs\Microchip Studio\7.0\toolchain\avr8\avrassembler\Include</DIR>
+  <DIR>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\avrasm\inc</DIR>
+  <DIR>C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avrassembler\Include</DIR>
   <DIR></DIR>
  </INCLUDE_PATH>
- <SOURCE_FILE>D:\Code repositories\Skola\TSEA77\labb2\main.asm</SOURCE_FILE>
+ <SOURCE_FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</SOURCE_FILE>
  <INCLUDED_FILES>
-  <FILE>D:/Programs\Microchip Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\avrasm\inc\m16Adef.inc</FILE>
+  <FILE>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\avrasm\inc\m16Adef.inc</FILE>
  </INCLUDED_FILES>
  <OBJECT_FILES>
-  <FILE>D:\Code repositories\Skola\TSEA77\labb2\Debug\labb2.obj</FILE>
+  <FILE>C:\Users\Felix\Projects\TSEA77\labb2\Debug\labb2.obj</FILE>
  </OBJECT_FILES>
  <HEX_FILES>
   <FILE>labb2.hex</FILE>
@@ -22,21 +22,22 @@
   <FILE>labb2.lss</FILE>
  </OUTPUT_FILES>
  <LABELS>
-  <BTAB><FILE>D:\Code repositories\Skola\TSEA77\labb2\main.asm</FILE><LINE>9</LINE></BTAB>
-  <MESSAGE><FILE>D:\Code repositories\Skola\TSEA77\labb2\main.asm</FILE><LINE>13</LINE></MESSAGE>
-  <SETUP><FILE>D:\Code repositories\Skola\TSEA77\labb2\main.asm</FILE><LINE>19</LINE></SETUP>
-  <RESET><FILE>D:\Code repositories\Skola\TSEA77\labb2\main.asm</FILE><LINE>31</LINE></RESET>
-  <MORSE><FILE>D:\Code repositories\Skola\TSEA77\labb2\main.asm</FILE><LINE>34</LINE></MORSE>
-  <GET_CHAR><FILE>D:\Code repositories\Skola\TSEA77\labb2\main.asm</FILE><LINE>45</LINE></GET_CHAR>
-  <ONE_CHAR><FILE>D:\Code repositories\Skola\TSEA77\labb2\main.asm</FILE><LINE>48</LINE></ONE_CHAR>
-  <BEEP_CHAR><FILE>D:\Code repositories\Skola\TSEA77\labb2\main.asm</FILE><LINE>51</LINE></BEEP_CHAR>
-  <LOOKUP><FILE>D:\Code repositories\Skola\TSEA77\labb2\main.asm</FILE><LINE>54</LINE></LOOKUP>
-  <LOOP><FILE>D:\Code repositories\Skola\TSEA77\labb2\main.asm</FILE><LINE>60</LINE></LOOP>
-  <SEND><FILE>D:\Code repositories\Skola\TSEA77\labb2\main.asm</FILE><LINE>76</LINE></SEND>
-  <GET_BIT><FILE>D:\Code repositories\Skola\TSEA77\labb2\main.asm</FILE><LINE>79</LINE></GET_BIT>
-  <SEND_BIT><FILE>D:\Code repositories\Skola\TSEA77\labb2\main.asm</FILE><LINE>82</LINE></SEND_BIT>
-  <BIT><FILE>D:\Code repositories\Skola\TSEA77\labb2\main.asm</FILE><LINE>85</LINE></BIT>
-  <BEEP><FILE>D:\Code repositories\Skola\TSEA77\labb2\main.asm</FILE><LINE>88</LINE></BEEP>
-  <NOBEEP><FILE>D:\Code repositories\Skola\TSEA77\labb2\main.asm</FILE><LINE>91</LINE></NOBEEP>
+  <SETUP><FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</FILE><LINE>14</LINE></SETUP>
+  <MESSAGE_END><FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</FILE><LINE>126</LINE></MESSAGE_END>
+  <MESSAGE><FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</FILE><LINE>123</LINE></MESSAGE>
+  <MORSE><FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</FILE><LINE>28</LINE></MORSE>
+  <loop_morse><FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</FILE><LINE>32</LINE></loop_morse>
+  <lookup><FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</FILE><LINE>65</LINE></lookup>
+  <SEND><FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</FILE><LINE>78</LINE></SEND>
+  <NOBEEP><FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</FILE><LINE>108</LINE></NOBEEP>
+  <GET_CHAR><FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</FILE><LINE>56</LINE></GET_CHAR>
+  <ONE_CHAR><FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</FILE><LINE>59</LINE></ONE_CHAR>
+  <BEEP_CHAR><FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</FILE><LINE>62</LINE></BEEP_CHAR>
+  <BTAB><FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</FILE><LINE>118</LINE></BTAB>
+  <loop_SEND><FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</FILE><LINE>80</LINE></loop_SEND>
+  <BEEP_ONCE><FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</FILE><LINE>87</LINE></BEEP_ONCE>
+  <beep><FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</FILE><LINE>99</LINE></beep>
+  <SEND_BIT><FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</FILE><LINE>95</LINE></SEND_BIT>
+  <DELAY><FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</FILE><LINE>114</LINE></DELAY>
  </LABELS>
 </ASSEMBLER_INFO>
