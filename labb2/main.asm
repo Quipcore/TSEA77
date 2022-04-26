@@ -25,6 +25,8 @@ SETUP:
 
 	;Setting global variables
 	ldi			r21, MESSAGE_END*2-MESSAGE*2-1 ; Length of message, take -1 if message length % 2 = 0
+
+
 MORSE:
 
 	mov			r20,r21	 ;r20 -> counter
@@ -40,12 +42,13 @@ MORSE:
 	lpm			r16,Z
 
 	cpi			r16,$20
-	brne		CONTINUE
+	brne		CONTINUE ;if r16 is space nobeep 7x and jump to bottom of loop
+						 ; super ugly approach, needs refactoring
 
 	call		NOBEEP_SEV
 	jmp			MINMIN
 
-	CONTINUE
+	CONTINUE:
 	subi		r16,$41
 
 	call		lookup ;Set r16 to corresponding output bin
@@ -64,71 +67,79 @@ MORSE:
 
 LOOKUP: ;Search for start of message -> add index(r17) -> -$47 to go from letter to index of BTAB -> return value at index
 
-	ldi		ZH, HIGH(BTAB*2)
-	ldi		ZL, LOW(BTAB*2)
+	ldi			ZH, HIGH(BTAB*2)
+	ldi			ZL, LOW(BTAB*2)
 
-	//neg		r16
-	add		ZL,r16
-	ldi		r18,0
-	adc		ZH,r18
+	add			ZL,r16
+	ldi			r18,0
+	adc			ZH,r18
 
-	lpm		r16,Z
+	lpm			r16,Z
 	ret
 
 SEND:
 	
 	loop_SEND:
-	lsl		r16
-	
+	lsl			r16
 
-	brcc	BEEP_ONCE
-	call	beep
-	call	beep
+	brcc		BEEP_ONCE
+	call		beep
+	call		beep
 	BEEP_ONCE:
-	call	beep
-	call	NOBEEP
+	call		beep
+	call		NOBEEP
 
-	cpi		r16,$80
-	brne	loop_SEND
+	cpi			r16,$80
+	brne		loop_SEND
 	ret
 
 
 BEEP: ; (N)
-	ldi	r19,$1
-	out	PORTB,r19
-	call DElAY	
+	ldi			r19,$1
+	out			PORTB,r19
+	call		DElAY	
 	ret
 
 NOBEEP: ;(N)
-	//DELAY
-	ldi	r19,0
-	out	PORTB,r19
-	call DELAY
+	ldi			r19,$2
+	out			PORTB,r19
+	call		DELAY
 	ret
 
 NOBEEP_SEV:
-	call NOBEEP
-	call NOBEEP
-	call NOBEEP
-	call NOBEEP
+	call		NOBEEP
+	call		NOBEEP
+	call		NOBEEP
+	call		NOBEEP
 
-	call NOBEEP
-	call NOBEEP
-	call NOBEEP
+	call		NOBEEP
+	call		NOBEEP
+	call		NOBEEP
 	ret
 
-DELAY:
+
+	.equ		SIGNAL_TIME = 10 ; Time in ms
+DELAY: ;DELAY So that the sound played stays alive for x seconds
+	ldi			r24,$FF ;Add mat
+	ldi			r25,$FF
+	subi		r24,LOW(SIGNAL_TIME*4000)-1
+	subi		r25,HIGH(SIGNAL_TIME*4000)
+
+	nop
+	LOOP_DELAY:
+	adiw		r24,1
+	brne		LOOP_DELAY
+	ret
 	
-	ret
 
-	.org $100
+	.org $100 ; Sets MESSAGE and MESSAGE_END at adress $125
 BTAB: ; getDecodedIndexOf(char c) {return c.value - $41} ;Returns corresponding index in table
 	.db $60,$88,$A8,$90,$40,$28,$D0,$08,$20,$78,$B0,$48,$E0,$A0,$F0,$68,$D8,$50,$10,$C0,$30,$18,$70,$98,$B8,$C8
 	//ret
 
-	.org $125
+	.org $125 ; Sets MESSAGE and MESSAGE_END at adress $125
 MESSAGE:
-	.db		"HELLO", $00 ; if message_length % 2 = 0, dont pad with zero
+	.db		"H E", $00 ; if message_length % 2 = 0, dont pad with zero
 
 MESSAGE_END:
 	.db		"END",$00
