@@ -1,10 +1,10 @@
 
-AVRASM ver. 2.2.8  C:\Users\Felix\Projects\TSEA77\labb2\main.asm Tue Apr 26 12:30:55 2022
+AVRASM ver. 2.2.8  D:\Code repositories\Skola\TSEA77\labb2\main.asm Tue Apr 26 22:09:20 2022
 
-[builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\avrasm\inc\m16Adef.inc'
-[builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\avrasm\inc\m16Adef.inc'
+[builtin](2): Including file 'D:/Programs\Microchip Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\avrasm\inc\m16Adef.inc'
+[builtin](2): Including file 'D:/Programs\Microchip Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\avrasm\inc\m16Adef.inc'
                                  
-                                 ;
+                                  ;
                                  
                                  ;***** Created: 2011-02-09 12:03 ******* Source: ATmega16A.xml ***********
                                  ;*************************************************************************
@@ -896,6 +896,7 @@ AVRASM ver. 2.2.8  C:\Users\Felix\Projects\TSEA77\labb2\main.asm Tue Apr 26 12:3
                                  
                                  	;Setting global variables
 000007 e053                      	ldi			r21, MESSAGE_END*2-MESSAGE*2-1 ; Length of message, take -1 if message length % 2 = 0
+                                 												; NOT multiplying by 2 might fix problem
                                  
                                  
                                  MORSE:
@@ -917,89 +918,94 @@ AVRASM ver. 2.2.8  C:\Users\Felix\Projects\TSEA77\labb2\main.asm Tue Apr 26 12:3
 000011 f022                      	brmi		CONTINUE ;if r16 is not a char in BTAB nobeep 7x and jump to bottom of loop
                                  						 ; super ugly approach, needs refactoring
                                  
-000012 940e 003f                 	call		NOBEEP_SEV
-000014 940c 001e                 	jmp			MINMIN
+000012 940e 0047                 	call		NOBEEP_FIVE
+000014 940c 001a                 	jmp			MINMIN
                                  
                                  CONTINUE:
-000016 940e 0021                 	call		LOOKUP ;Set r16 to corresponding output bin
-000018 940e 0028                 	call		SEND
-                                 
-00001a 940e 003a                 	call		NOBEEP
-00001c 940e 003a                 	call		NOBEEP
+000016 940e 0029                 	call		LOOKUP ;Set r16 to corresponding output bin
+000018 940e 0030                 	call		SEND
                                  
                                  MINMIN:
+00001a 940e 0042                 	call		NOBEEP
+00001c 940e 0042                 	call		NOBEEP
+                                 
 00001e 954a                      	dec			r20
 00001f f749                      	brne		LOOP_MORSE
                                  
-000020 cfe7                      	rjmp		MORSE
+000020 940e 0047                 	call		NOBEEP_FIVE
+000022 940e 0042                 	call		NOBEEP
+000024 940e 0042                 	call		NOBEEP
+000026 940e 0047                 	call		NOBEEP_FIVE
+                                 
+000028 cfdf                      	rjmp		MORSE
                                  
                                  	;---------------------------------------------------------------------
                                  
                                  LOOKUP: ;Search for start of message -> add index(r17) -> -$47 to go from letter to index of BTAB -> return value at index
                                  
-000021 e0f2                      	ldi			ZH, HIGH(BTAB*2)
-000022 e0e0                      	ldi			ZL, LOW(BTAB*2)
+000029 e0f2                      	ldi			ZH, HIGH(BTAB*2)
+00002a e0e0                      	ldi			ZL, LOW(BTAB*2)
                                  
-000023 0fe0                      	add			ZL,r16
-000024 e020                      	ldi			r18,0
-000025 1ff2                      	adc			ZH,r18
+00002b 0fe0                      	add			ZL,r16
+00002c e020                      	ldi			r18,0
+00002d 1ff2                      	adc			ZH,r18
                                  
-000026 9104                      	lpm			r16,Z
-000027 9508                      	ret
+00002e 9104                      	lpm			r16,Z
+00002f 9508                      	ret
                                  
                                  SEND:
                                  	
                                  LOOP_SEND:
-000028 0f00                      	lsl			r16
+000030 0f00                      	lsl			r16
                                  
-000029 f420                      	brcc		BEEP_ONCE
-00002a 940e 0035                 	call		beep
-00002c 940e 0035                 	call		beep
+000031 f420                      	brcc		BEEP_ONCE
+000032 940e 003d                 	call		beep
+000034 940e 003d                 	call		beep
                                  BEEP_ONCE:
-00002e 940e 0035                 	call		beep
-000030 940e 003a                 	call		NOBEEP
+000036 940e 003d                 	call		beep
+000038 940e 0042                 	call		NOBEEP
                                  
-000032 3800                      	cpi			r16,$80
-000033 f7a1                      	brne		LOOP_SEND
-000034 9508                      	ret
+00003a 3800                      	cpi			r16,$80
+00003b f7a1                      	brne		LOOP_SEND
+00003c 9508                      	ret
                                  
                                  
                                  BEEP: ; (N)
-000035 e031                      	ldi			r19,$1
-000036 bb38                      	out			PORTB,r19
-000037 940e 004e                 	call		DElAY	
-000039 9508                      	ret
+00003d e031                      	ldi			r19,$1
+00003e bb38                      	out			PORTB,r19
+00003f 940e 0052                 	call		DElAY	
+000041 9508                      	ret
                                  
                                  NOBEEP: ;(N)
-00003a e032                      	ldi			r19,$2
-00003b bb38                      	out			PORTB,r19
-00003c 940e 004e                 	call		DELAY
-00003e 9508                      	ret
+000042 e032                      	ldi			r19,$2 ; 0d10, need the first 1 for debug purpuses
+000043 bb38                      	out			PORTB,r19
+000044 940e 0052                 	call		DELAY
+000046 9508                      	ret
                                  
-                                 NOBEEP_SEV:
-00003f 940e 003a                 	call		NOBEEP
-000041 940e 003a                 	call		NOBEEP
-000043 940e 003a                 	call		NOBEEP
-000045 940e 003a                 	call		NOBEEP
+                                 NOBEEP_FIVE:
+000047 940e 0042                 	call		NOBEEP
+000049 940e 0042                 	call		NOBEEP
+00004b 940e 0042                 	call		NOBEEP
+00004d 940e 0042                 	call		NOBEEP
+00004f 940e 0042                 	call		NOBEEP
                                  
-000047 940e 003a                 	call		NOBEEP
-000049 940e 003a                 	call		NOBEEP
-00004b 940e 003a                 	call		NOBEEP
-00004d 9508                      	ret
+000051 9508                      	ret
                                  
                                  
-                                 	.equ		SIGNAL_TIME = 10 ; Time in ms
+                                 	.equ		SIGNAL_TIME = 10 ; Time in ms (0 < SIGNAL_TIME <= 16)
                                  DELAY: ;DELAY So that the sound played stays alive for x seconds
-00004e ef8f                      	ldi			r24,$FF ;Add mat
-00004f ef9f                      	ldi			r25,$FF
-000050 538f                      	subi		r24,LOW(SIGNAL_TIME*4000)-1
-000051 599c                      	subi		r25,HIGH(SIGNAL_TIME*4000)
+000052 ef8f                      	ldi			r24,$FF ;Add mat
+000053 ef9f                      	ldi			r25,$FF
+000054 538f                      	subi		r24,LOW(SIGNAL_TIME*4000)-1
+000055 599c                      	subi		r25,HIGH(SIGNAL_TIME*4000)
                                  
                                  LOOP_DELAY:
-000052 9601                      	adiw		r24,1
-000053 f7f1                      	brne		LOOP_DELAY
-000054 9508                      	ret
+000056 9601                      	adiw		r24,1
+000057 f7f1                      	brne		LOOP_DELAY
+000058 9508                      	ret
                                  	
+                                 
+                                 	;---------------------------------------------------------------------
                                  
                                  	.org $100 ; Sets MESSAGE and MESSAGE_END at adress $125
                                  BTAB: ; getDecodedIndexOf(char c) {return c.value - $41} ;Returns corresponding index in table
@@ -1059,7 +1065,7 @@ andi  :   0 asr   :   0 bclr  :   0 bld   :   0 brbc  :   0 brbs  :   0
 brcc  :   1 brcs  :   0 break :   0 breq  :   0 brge  :   0 brhc  :   0 
 brhs  :   0 brid  :   0 brie  :   0 brlo  :   0 brlt  :   0 brmi  :   1 
 brne  :   3 brpl  :   0 brsh  :   0 brtc  :   0 brts  :   0 brvc  :   0 
-brvs  :   0 bset  :   0 bst   :   0 call  :  18 cbi   :   0 cbr   :   0 
+brvs  :   0 bset  :   0 bst   :   0 call  :  20 cbi   :   0 cbr   :   0 
 clc   :   0 clh   :   0 cli   :   0 cln   :   0 clr   :   0 cls   :   0 
 clt   :   0 clv   :   0 clz   :   0 com   :   0 cp    :   0 cpc   :   0 
 cpi   :   2 cpse  :   0 dec   :   1 eor   :   0 fmul  :   0 fmuls :   0 
@@ -1078,7 +1084,7 @@ Instructions used: 19 out of 113 (16.8%)
 "ATmega16A" memory use summary [bytes]:
 Segment   Begin    End      Code   Data   Used    Size   Use%
 ---------------------------------------------------------------
-[.cseg] 0x000000 0x000252    170     38    208   16384   1.3%
+[.cseg] 0x000000 0x000252    178     38    216   16384   1.3%
 [.dseg] 0x000060 0x000060      0      0      0    1024   0.0%
 [.eseg] 0x000000 0x000000      0      0      0     512   0.0%
 

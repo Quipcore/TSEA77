@@ -1,15 +1,9 @@
-;
+ ;
 ; labb2.asm
 ;
 ; Created: 2022-04-23 23:18:15
 ; Author : Felix Lidö
 ;
-
-	;r16-r20 function variable
-	;r21-r25 globals together with SRAM
-
-		
-		;---------------------------------------------------------------------
 
 SETUP:
 	ldi			r16,HIGH(RAMEND)
@@ -17,26 +11,28 @@ SETUP:
 	ldi			r16,LOW(RAMEND)
 	out			SPL,r16
 
-	//cbi		DDRA,0 //DRRA isnt used
 	ldi			r16,$FF
 	out			DDRB,r16
 
 	ldi			r16,0
 
-	;Setting global variables
 	ldi			r21, MESSAGE_END*2-MESSAGE*2-1 ; Length of message, take -1 if message length % 2 = 0
 												; NOT multiplying by 2 might fix problem
+		;---------------------------------------------------------------------
 
+MORSE: ; return void
+	;	r16 - return value
+	;	r17 - index
+	;	r20 - loopcounter
+	;	r21 - length of message
 
-MORSE:
-
-	mov			r20,r21	 ;r20 -> counter
+	mov			r20,r21	
 
 LOOP_MORSE:		
 	ldi			ZH, HIGH(MESSAGE*2)
 	ldi			ZL, LOW(MESSAGE*2)
 	
-	mov			r17,r21  ; indexing of message
+	mov			r17,r21
 	sub			r17,r20
 	add			ZL,r17
 
@@ -46,26 +42,33 @@ LOOP_MORSE:
 	cpi			r16,BTAB_END*2-BTAB*2-1
 	brmi		CONTINUE ;if r16 is not a char in BTAB nobeep 7x and jump to bottom of loop
 						 ; super ugly approach, needs refactoring
-
-	call		NOBEEP_SEV
+	call		NOBEEP_FIVE
 	jmp			MINMIN
 
 CONTINUE:
-	call		LOOKUP ;Set r16 to corresponding output bin
+	call		LOOKUP
 	call		SEND
 
+MINMIN:
 	call		NOBEEP
 	call		NOBEEP
 
-MINMIN:
 	dec			r20
 	brne		LOOP_MORSE
+
+	call		NOBEEP_FIVE
+	call		NOBEEP
+	call		NOBEEP
+	call		NOBEEP_FIVE
 
 	rjmp		MORSE
 
 	;---------------------------------------------------------------------
 
-LOOKUP: ;Search for start of message -> add index(r17) -> -$47 to go from letter to index of BTAB -> return value at index
+LOOKUP: ; return r16
+	;Search for start of message -> add index(r17) -> -$47 to go from letter to index of BTAB -> return value at index
+	;	r16 - input and return value
+	;	r18 - temp storage
 
 	ldi			ZH, HIGH(BTAB*2)
 	ldi			ZL, LOW(BTAB*2)
@@ -77,7 +80,10 @@ LOOKUP: ;Search for start of message -> add index(r17) -> -$47 to go from letter
 	lpm			r16,Z
 	ret
 
-SEND:
+	;---------------------------------------------------------------------
+
+SEND: ; return void
+	;	r16 - input value
 	
 LOOP_SEND:
 	lsl			r16
@@ -93,36 +99,45 @@ BEEP_ONCE:
 	brne		LOOP_SEND
 	ret
 
+	;---------------------------------------------------------------------
 
-BEEP: ; (N)
+BEEP: ;return void
+	;	r19  - temp storage 
 	ldi			r19,$1
 	out			PORTB,r19
 	call		DElAY	
 	ret
 
-NOBEEP: ;(N)
-	ldi			r19,$2 ; 0d10, need the first 1 for debug purpuses
+	;---------------------------------------------------------------------
+
+NOBEEP: ;return void
+	;	r19  - temp storage
+	ldi			r19,$2 ; 0d10, need the first and only 1 for debug purposes
 	out			PORTB,r19
 	call		DELAY
 	ret
 
-NOBEEP_SEV:
+	;---------------------------------------------------------------------
+
+NOBEEP_FIVE: ; return void
+	call		NOBEEP
 	call		NOBEEP
 	call		NOBEEP
 	call		NOBEEP
 	call		NOBEEP
 
-	call		NOBEEP
-	call		NOBEEP
-	call		NOBEEP
 	ret
 
+	;---------------------------------------------------------------------
 
-	.equ		SIGNAL_TIME = 10 ; Time in ms
-DELAY: ;DELAY So that the sound played stays alive for x seconds
-	ldi			r24,$FF ;Add mat
+	.equ		SIGNAL_TIME = 10 ; Time in ms (0 < SIGNAL_TIME <= 16)
+	;DELAY So that the sound played stays alive for SIGNAL_TIME miliseconds
+DELAY: ; return void
+	;	r24 - LOW in r24:r25 16-bit pair
+	;	r25 - HIGH in r24:r25 16-bit pair
+	ldi			r24,$FF
 	ldi			r25,$FF
-	subi		r24,LOW(SIGNAL_TIME*4000)-1
+	subi		r24,LOW(SIGNAL_TIME*4000)-1 ; see notes for more info
 	subi		r25,HIGH(SIGNAL_TIME*4000)
 
 LOOP_DELAY:
@@ -130,6 +145,9 @@ LOOP_DELAY:
 	brne		LOOP_DELAY
 	ret
 	
+
+	;---------------------------------------------------------------------
+	;	FLASH-MEMORY DATA, DO NOT RUN in cseg
 
 	.org $100 ; Sets MESSAGE and MESSAGE_END at adress $125
 BTAB: ; getDecodedIndexOf(char c) {return c.value - $41} ;Returns corresponding index in table
