@@ -25,13 +25,14 @@ SETUP:
 
 	;Setting global variables
 	ldi			r21, MESSAGE_END*2-MESSAGE*2-1 ; Length of message, take -1 if message length % 2 = 0
+												; NOT multiplying by 2 might fix problem
 
 
 MORSE:
 
 	mov			r20,r21	 ;r20 -> counter
 
-	loop_morse:		
+LOOP_MORSE:		
 	ldi			ZH, HIGH(MESSAGE*2)
 	ldi			ZL, LOW(MESSAGE*2)
 	
@@ -41,25 +42,24 @@ MORSE:
 
 	lpm			r16,Z
 
-	cpi			r16,$20
-	brne		CONTINUE ;if r16 is space nobeep 7x and jump to bottom of loop
+	subi		r16,$41
+	cpi			r16,BTAB_END*2-BTAB*2-1
+	brmi		CONTINUE ;if r16 is not a char in BTAB nobeep 7x and jump to bottom of loop
 						 ; super ugly approach, needs refactoring
 
 	call		NOBEEP_SEV
 	jmp			MINMIN
 
-	CONTINUE:
-	subi		r16,$41
-
-	call		lookup ;Set r16 to corresponding output bin
+CONTINUE:
+	call		LOOKUP ;Set r16 to corresponding output bin
 	call		SEND
 
 	call		NOBEEP
 	call		NOBEEP
 
-	MINMIN:
+MINMIN:
 	dec			r20
-	brne		loop_morse
+	brne		LOOP_MORSE
 
 	rjmp		MORSE
 
@@ -79,18 +79,18 @@ LOOKUP: ;Search for start of message -> add index(r17) -> -$47 to go from letter
 
 SEND:
 	
-	loop_SEND:
+LOOP_SEND:
 	lsl			r16
 
 	brcc		BEEP_ONCE
 	call		beep
 	call		beep
-	BEEP_ONCE:
+BEEP_ONCE:
 	call		beep
 	call		NOBEEP
 
 	cpi			r16,$80
-	brne		loop_SEND
+	brne		LOOP_SEND
 	ret
 
 
@@ -101,7 +101,7 @@ BEEP: ; (N)
 	ret
 
 NOBEEP: ;(N)
-	ldi			r19,$2
+	ldi			r19,$2 ; 0d10, need the first 1 for debug purpuses
 	out			PORTB,r19
 	call		DELAY
 	ret
@@ -125,8 +125,7 @@ DELAY: ;DELAY So that the sound played stays alive for x seconds
 	subi		r24,LOW(SIGNAL_TIME*4000)-1
 	subi		r25,HIGH(SIGNAL_TIME*4000)
 
-	nop
-	LOOP_DELAY:
+LOOP_DELAY:
 	adiw		r24,1
 	brne		LOOP_DELAY
 	ret
@@ -136,6 +135,9 @@ DELAY: ;DELAY So that the sound played stays alive for x seconds
 BTAB: ; getDecodedIndexOf(char c) {return c.value - $41} ;Returns corresponding index in table
 	.db $60,$88,$A8,$90,$40,$28,$D0,$08,$20,$78,$B0,$48,$E0,$A0,$F0,$68,$D8,$50,$10,$C0,$30,$18,$70,$98,$B8,$C8
 	//ret
+
+BTAB_END:
+	.db		"END",$00
 
 	.org $125 ; Sets MESSAGE and MESSAGE_END at adress $125
 MESSAGE:

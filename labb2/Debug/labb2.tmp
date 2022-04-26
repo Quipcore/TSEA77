@@ -23,21 +23,22 @@
  </OUTPUT_FILES>
  <LABELS>
   <SETUP><FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</FILE><LINE>14</LINE></SETUP>
-  <MESSAGE_END><FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</FILE><LINE>144</LINE></MESSAGE_END>
-  <MESSAGE><FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</FILE><LINE>141</LINE></MESSAGE>
+  <MESSAGE_END><FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</FILE><LINE>145</LINE></MESSAGE_END>
+  <MESSAGE><FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</FILE><LINE>142</LINE></MESSAGE>
   <MORSE><FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</FILE><LINE>30</LINE></MORSE>
-  <loop_morse><FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</FILE><LINE>34</LINE></loop_morse>
-  <CONTINUE><FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</FILE><LINE>51</LINE></CONTINUE>
-  <NOBEEP_SEV><FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</FILE><LINE>109</LINE></NOBEEP_SEV>
-  <MINMIN><FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</FILE><LINE>60</LINE></MINMIN>
-  <lookup><FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</FILE><LINE>68</LINE></lookup>
-  <SEND><FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</FILE><LINE>80</LINE></SEND>
-  <NOBEEP><FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</FILE><LINE>103</LINE></NOBEEP>
-  <BTAB><FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</FILE><LINE>136</LINE></BTAB>
-  <loop_SEND><FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</FILE><LINE>82</LINE></loop_SEND>
-  <BEEP_ONCE><FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</FILE><LINE>88</LINE></BEEP_ONCE>
-  <beep><FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</FILE><LINE>97</LINE></beep>
-  <DElAY><FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</FILE><LINE>122</LINE></DElAY>
-  <LOOP_DELAY><FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</FILE><LINE>129</LINE></LOOP_DELAY>
+  <LOOP_MORSE><FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</FILE><LINE>34</LINE></LOOP_MORSE>
+  <BTAB_END><FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</FILE><LINE>138</LINE></BTAB_END>
+  <BTAB><FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</FILE><LINE>134</LINE></BTAB>
+  <CONTINUE><FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</FILE><LINE>52</LINE></CONTINUE>
+  <NOBEEP_SEV><FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</FILE><LINE>108</LINE></NOBEEP_SEV>
+  <MINMIN><FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</FILE><LINE>59</LINE></MINMIN>
+  <LOOKUP><FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</FILE><LINE>67</LINE></LOOKUP>
+  <SEND><FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</FILE><LINE>79</LINE></SEND>
+  <NOBEEP><FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</FILE><LINE>102</LINE></NOBEEP>
+  <LOOP_SEND><FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</FILE><LINE>81</LINE></LOOP_SEND>
+  <BEEP_ONCE><FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</FILE><LINE>87</LINE></BEEP_ONCE>
+  <beep><FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</FILE><LINE>96</LINE></beep>
+  <DElAY><FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</FILE><LINE>121</LINE></DElAY>
+  <LOOP_DELAY><FILE>C:\Users\Felix\Projects\TSEA77\labb2\main.asm</FILE><LINE>127</LINE></LOOP_DELAY>
  </LABELS>
 </ASSEMBLER_INFO>
