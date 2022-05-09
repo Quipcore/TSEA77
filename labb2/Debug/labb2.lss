@@ -1,8 +1,8 @@
 
-AVRASM ver. 2.2.8  D:\Code repositories\Skola\TSEA77\labb2\main.asm Tue Apr 26 22:09:20 2022
+AVRASM ver. 2.2.8  C:\Users\Felix\Projects\TSEA77\labb2\main.asm Fri May 06 15:16:36 2022
 
-[builtin](2): Including file 'D:/Programs\Microchip Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\avrasm\inc\m16Adef.inc'
-[builtin](2): Including file 'D:/Programs\Microchip Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\avrasm\inc\m16Adef.inc'
+[builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\avrasm\inc\m16Adef.inc'
+[builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\avrasm\inc\m16Adef.inc'
                                  
                                   ;
                                  
@@ -876,38 +876,34 @@ AVRASM ver. 2.2.8  D:\Code repositories\Skola\TSEA77\labb2\main.asm Tue Apr 26 2
                                  ; Author : Felix Lidö
                                  ;
                                  
-                                 	;r16-r20 function variable
-                                 	;r21-r25 globals together with SRAM
-                                 
-                                 		
-                                 		;---------------------------------------------------------------------
-                                 
                                  SETUP:
 000000 e004                      	ldi			r16,HIGH(RAMEND)
 000001 bf0e                      	out			SPH,r16
 000002 e50f                      	ldi			r16,LOW(RAMEND)
 000003 bf0d                      	out			SPL,r16
                                  
-                                 	//cbi		DDRA,0 //DRRA isnt used
 000004 ef0f                      	ldi			r16,$FF
 000005 bb07                      	out			DDRB,r16
                                  
 000006 e000                      	ldi			r16,0
                                  
-                                 	;Setting global variables
 000007 e053                      	ldi			r21, MESSAGE_END*2-MESSAGE*2-1 ; Length of message, take -1 if message length % 2 = 0
                                  												; NOT multiplying by 2 might fix problem
+                                 		;---------------------------------------------------------------------
                                  
+                                 MORSE: ; return void
+                                 	;	r16 - return value
+                                 	;	r17 - index
+                                 	;	r20 - loopcounter
+                                 	;	r21 - length of message
                                  
-                                 MORSE:
-                                 
-000008 2f45                      	mov			r20,r21	 ;r20 -> counter
+000008 2f45                      	mov			r20,r21	
                                  
                                  LOOP_MORSE:		
 000009 e0f2                      	ldi			ZH, HIGH(MESSAGE*2)
 00000a e4ea                      	ldi			ZL, LOW(MESSAGE*2)
                                  	
-00000b 2f15                      	mov			r17,r21  ; indexing of message
+00000b 2f15                      	mov			r17,r21
 00000c 1b14                      	sub			r17,r20
 00000d 0fe1                      	add			ZL,r17
                                  
@@ -917,12 +913,11 @@ AVRASM ver. 2.2.8  D:\Code repositories\Skola\TSEA77\labb2\main.asm Tue Apr 26 2
 000010 3109                      	cpi			r16,BTAB_END*2-BTAB*2-1
 000011 f022                      	brmi		CONTINUE ;if r16 is not a char in BTAB nobeep 7x and jump to bottom of loop
                                  						 ; super ugly approach, needs refactoring
-                                 
 000012 940e 0047                 	call		NOBEEP_FIVE
 000014 940c 001a                 	jmp			MINMIN
                                  
                                  CONTINUE:
-000016 940e 0029                 	call		LOOKUP ;Set r16 to corresponding output bin
+000016 940e 0029                 	call		LOOKUP
 000018 940e 0030                 	call		SEND
                                  
                                  MINMIN:
@@ -941,7 +936,10 @@ AVRASM ver. 2.2.8  D:\Code repositories\Skola\TSEA77\labb2\main.asm Tue Apr 26 2
                                  
                                  	;---------------------------------------------------------------------
                                  
-                                 LOOKUP: ;Search for start of message -> add index(r17) -> -$47 to go from letter to index of BTAB -> return value at index
+                                 LOOKUP: ; return r16
+                                 	;Search for start of message -> add index(r17) -> -$47 to go from letter to index of BTAB -> return value at index
+                                 	;	r16 - input and return value
+                                 	;	r18 - temp storage
                                  
 000029 e0f2                      	ldi			ZH, HIGH(BTAB*2)
 00002a e0e0                      	ldi			ZL, LOW(BTAB*2)
@@ -953,7 +951,10 @@ AVRASM ver. 2.2.8  D:\Code repositories\Skola\TSEA77\labb2\main.asm Tue Apr 26 2
 00002e 9104                      	lpm			r16,Z
 00002f 9508                      	ret
                                  
-                                 SEND:
+                                 	;---------------------------------------------------------------------
+                                 
+                                 SEND: ; return void
+                                 	;	r16 - input value
                                  	
                                  LOOP_SEND:
 000030 0f00                      	lsl			r16
@@ -969,20 +970,27 @@ AVRASM ver. 2.2.8  D:\Code repositories\Skola\TSEA77\labb2\main.asm Tue Apr 26 2
 00003b f7a1                      	brne		LOOP_SEND
 00003c 9508                      	ret
                                  
+                                 	;---------------------------------------------------------------------
                                  
-                                 BEEP: ; (N)
+                                 BEEP: ;return void
+                                 	;	r19  - temp storage 
 00003d e031                      	ldi			r19,$1
 00003e bb38                      	out			PORTB,r19
 00003f 940e 0052                 	call		DElAY	
 000041 9508                      	ret
                                  
-                                 NOBEEP: ;(N)
-000042 e032                      	ldi			r19,$2 ; 0d10, need the first 1 for debug purpuses
+                                 	;---------------------------------------------------------------------
+                                 
+                                 NOBEEP: ;return void
+                                 	;	r19  - temp storage
+000042 e032                      	ldi			r19,$2 ; 0d10, need the first and only 1 for debug purposes
 000043 bb38                      	out			PORTB,r19
 000044 940e 0052                 	call		DELAY
 000046 9508                      	ret
                                  
-                                 NOBEEP_FIVE:
+                                 	;---------------------------------------------------------------------
+                                 
+                                 NOBEEP_FIVE: ; return void
 000047 940e 0042                 	call		NOBEEP
 000049 940e 0042                 	call		NOBEEP
 00004b 940e 0042                 	call		NOBEEP
@@ -991,12 +999,16 @@ AVRASM ver. 2.2.8  D:\Code repositories\Skola\TSEA77\labb2\main.asm Tue Apr 26 2
                                  
 000051 9508                      	ret
                                  
+                                 	;---------------------------------------------------------------------
                                  
                                  	.equ		SIGNAL_TIME = 10 ; Time in ms (0 < SIGNAL_TIME <= 16)
-                                 DELAY: ;DELAY So that the sound played stays alive for x seconds
-000052 ef8f                      	ldi			r24,$FF ;Add mat
+                                 	;DELAY So that the sound played stays alive for SIGNAL_TIME miliseconds
+                                 DELAY: ; return void
+                                 	;	r24 - LOW in r24:r25 16-bit pair
+                                 	;	r25 - HIGH in r24:r25 16-bit pair
+000052 ef8f                      	ldi			r24,$FF
 000053 ef9f                      	ldi			r25,$FF
-000054 538f                      	subi		r24,LOW(SIGNAL_TIME*4000)-1
+000054 538f                      	subi		r24,LOW(SIGNAL_TIME*4000)-1 ; see notes for more info
 000055 599c                      	subi		r25,HIGH(SIGNAL_TIME*4000)
                                  
                                  LOOP_DELAY:
@@ -1006,6 +1018,7 @@ AVRASM ver. 2.2.8  D:\Code repositories\Skola\TSEA77\labb2\main.asm Tue Apr 26 2
                                  	
                                  
                                  	;---------------------------------------------------------------------
+                                 	;	FLASH-MEMORY DATA, DO NOT RUN in cseg
                                  
                                  	.org $100 ; Sets MESSAGE and MESSAGE_END at adress $125
                                  BTAB: ; getDecodedIndexOf(char c) {return c.value - $41} ;Returns corresponding index in table
