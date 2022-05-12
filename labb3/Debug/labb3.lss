@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.8  C:\Users\Felix\Projects\TSEA77\labb3\main.asm Fri May 06 15:16:37 2022
+AVRASM ver. 2.2.8  C:\Users\Felix\Projects\TSEA77\labb3\main.asm Mon May 09 15:48:01 2022
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\avrasm\inc\m16Adef.inc'
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\avrasm\inc\m16Adef.inc'
@@ -876,20 +876,21 @@ AVRASM ver. 2.2.8  C:\Users\Felix\Projects\TSEA77\labb3\main.asm Fri May 06 15:1
                                  ; Author : Felix
                                  ;
                                  .equ	TIME = $100
+                                 .def	COUNTER = r17
                                  
-                                 .org	$0000				; För tydlighet, behövs inte
+                                 .org	$0000		
 000000 940c 002a                 jmp		INIT            ; Reset Handler
                                  
                                  .org	INT0addr
-000002 940c 0006                 jmp		INT0             ; INT0 Handler
+000002 940c 003b                 jmp		ISR0             ; INT0 Handler
                                  
                                  .org	INT1addr
-000004 940c 0007                 jmp		INT1              ; INT1 Handler
+000004 940c 0052                 jmp		ISR1              ; INT1 Handler
                                  
                                  
                                  .org	INT_VECTORS_SIZE
                                  ;---------------------------------------------------------------------
-                                 ; Macros
+                                 ; Macros - never used
                                  ;---------------------------------------------------------------------
                                  .macro ClockAdd
                                  	ld		r16,X
@@ -898,8 +899,8 @@ AVRASM ver. 2.2.8  C:\Users\Felix\Projects\TSEA77\labb3\main.asm Fri May 06 15:1
                                  	cpi		r16,@0+1
                                  	brne	DONE
                                  	ldi		r16,0
-                                 	st		X,r16
-                                 	adiw	X,1
+                                 	st		X+,r16
+                                 	;adiw	X,1
                                  
                                  .endmacro
                                  
@@ -913,117 +914,131 @@ AVRASM ver. 2.2.8  C:\Users\Felix\Projects\TSEA77\labb3\main.asm Fri May 06 15:1
 00002c e50f                      	ldi     r16,LOW(RAMEND)
 00002d bf0d                      	out     SPL,r16
                                  
-00002e ef0f                      	ldi		r16,$FF
+00002e e003                      	ldi		r16,0b00000011
 00002f bb0a                      	out		DDRA,r16 //Write seconds
-000030 bb07                      	out		DDRB,r16 //Write minutes
+000030 e70f                      	ldi		r16,0b01111111
+000031 bb07                      	out		DDRB,r16 //Write minutes
                                  
-000031 e00a                      	ldi     r16,(1<<ISC01) |(0<<ISC00) |(1<<ISC11) |(0<<ISC10)
-000032 bf05                      	out     MCUCR,r16; Activate
-000033 ec00                      	ldi     r16,(1<<INT0) |(1<<INT1)
-000034 bf0b                      	out     GICR,r16; Enable Interrupts Globally
-000035 2700                      	clr		r16
-000036 9478                      	sei
+000032 e00a                      	ldi     r16,(1<<ISC01) |(0<<ISC00) |(1<<ISC11) |(0<<ISC10)
+000033 bf05                      	out     MCUCR,r16; Activate
+000034 ec00                      	ldi     r16,(1<<INT0) |(1<<INT1)
+000035 bf0b                      	out     GICR,r16; Enable Interrupts Globally
                                  
+000036 2700                      	clr		r16
+000037 2711                      	clr		counter
+000038 2722                      	clr		r18
+000039 9478                      	sei
                                  
                                  MAIN:
-000037 940e 0063                 	call	LOOPTEST
-000039 cffd                          rjmp	MAIN
                                  
-                                 ;---------------------------------------------------------------------
-                                 BCD: ;Should be under INT0
-00003a 930f                      	push	r16
-00003b e30f                      	ldi		r16,SREG
-00003c 930f                      	push	r16
-                                 	
-00003d e0b1                      	ldi		XH,HIGH(TIME)
-00003e e0a0                      	ldi		XL,LOW(TIME)
-                                 
-                                 	//Seconds
-00003f 910c
-000040 9503
-000041 930c
-000042 300a
-000043 f4d9
-000044 e000
-000045 930c
-000046 9611                      	ClockAdd	$9
-000047 910c
-000048 9503
-000049 930c
-00004a 3006
-00004b f499
-00004c e000
-00004d 930c
-00004e 9611                      	ClockAdd	$5
-                                 
-                                 	//Minutes
-00004f 910c
-000050 9503
-000051 930c
-000052 300a
-000053 f459
-000054 e000
-000055 930c
-000056 9611                      	ClockAdd	$9
-000057 910c
-000058 9503
-000059 930c
-00005a 3006
-00005b f419
-00005c e000
-00005d 930c
-00005e 9611                      	ClockAdd	$5
-                                 
-                                 DONE:
-00005f 910f                      	pop		r16
-000060 bf0f                      	out		SREG,r16
-000061 910f                      	pop		r16		
-000062 9508                      	ret
-                                 
-                                 ;---------------------------------------------------------------------
-                                 
-                                 LOOPTEST:
-000063 e010                      	ldi		r17,0
-                                 LOOP:
-000064 9513                      	inc		r17
-000065 3014                      	cpi		r17,4
-000066 f7e9                      	brne	LOOP
-000067 9508                      	ret
-                                 
-                                 MUX:
-000068 930f                      	push	r16
-000069 e30f                      	ldi		r16,SREG
-00006a 930f                      	push	r16
-                                 
-00006b e0b1                      	ldi		XH,HIGH(TIME)
-00006c e0a0                      	ldi		XL,LOW(TIME)
-                                 
-00006d e010                      	ldi		r17,0
-                                 MUX_LOOP:
-00006e bb1b                      	out		PORTA,r17
-                                 
-00006f 910c                      	ld		r16,X
-000070 bb08                      	out		PORTB,r16
-000071 9611                      	adiw	X,1
-                                 
-000072 9513                      	inc		r17
-000073 3014                      	cpi		r17,4
-000074 f7c9                      	brne	MUX_LOOP
-                                 
-000075 910f                      	pop		r16
-000076 bf0f                      	out		SREG,r16
-000077 910f                      	pop		r16	
-000078 9508                      	ret
+00003a cfff                          rjmp	MAIN
                                  
                                  ;---------------------------------------------------------------------
                                  ; Interrputs
                                  ;---------------------------------------------------------------------
                                  ISR0:
-000079 9518                      	reti
+00003b 930f                      	push	r16
+00003c e30f                      	ldi		r16,SREG
+00003d 930f                      	push	r16
+00003e 93af                      	push	XL
+00003f 93bf                      	push	XH
+000040 93ef                      	push	ZL
+000041 93ff                      	push	ZH
+000042 932f                      	push	r18
+                                 	
+000043 e0b1                      	ldi		XH,HIGH(TIME)
+000044 e0a0                      	ldi		XL,LOW(TIME)
+                                 	
+000045 e020                      	ldi		r18,0
+                                 LOOP:/*
+                                 	ld		r16,X
+                                 	inc		r16
+                                 	st		X,r16
+                                 	cpi		r16,$A
+                                 	brne	DONE
+                                 	ldi		r16,$0
+                                 	st		X+,r16
+                                 	ld		r16,X
+                                 	inc		r16
+                                 	st		X,r16
+                                 	cpi		r16,$6
+                                 	brne	DONE
+                                 	ldi		r16,$0
+                                 	st		X+,r16*/
                                  
+000046 9523                      	inc		r18
+000047 3022                      	cpi		r18,2
+000048 f7e9                      	brne	LOOP
+                                 	/*
+                                 	ClockAdd	$9
+                                 	ClockAdd	$5
+                                 
+                                 	//Minutes
+                                 	ClockAdd	$9
+                                 	ClockAdd	$5
+                                 	*/
+                                 DONE:
+000049 912f                      	pop		r18
+00004a 91ff                      	pop		ZH
+00004b 91ef                      	pop		ZL
+00004c 91bf                      	pop		XH
+00004d 91af                      	pop		XL
+00004e 910f                      	pop		r16
+00004f bf0f                      	out		SREG,r16
+000050 910f                      	pop		r16		
+000051 9518                      	reti
                                  ;---------------------------------------------------------------------
                                  
                                  ISR1:
+000052 930f                      	push	r16
+000053 e30f                      	ldi		r16,SREG
+000054 930f                      	push	r16
+000055 93af                      	push	XL
+000056 93bf                      	push	XH
+000057 93ef                      	push	ZL
+000058 93ff                      	push	ZH
+                                 	
+000059 e0b1                      	ldi		XH,HIGH(TIME)
+00005a e0a0                      	ldi		XL,LOW(TIME)
+                                 
+00005b 0fa1                      	add		XL,COUNTER		;If program big use add with carry :)
+                                 
+00005c 910c                      	ld		r16,X
+                                 
+00005d e0f6                      	ldi		ZH,HIGH(BCD*2)
+00005e e0e0                      	ldi		ZL,LOW(BCD*2)
+                                 
+00005f 0fe0                      	add		ZL,r16
+000060 9104                      	lpm		r16,Z
+                                 
+                                 
+000061 bb1b                      	out		PORTA,COUNTER
+000062 bb08                      	out		PORTB,r16
+                                 
+000063 9513                      	inc		counter
+000064 3014                      	cpi		counter,4
+000065 f409                      	brne	SKIP
+000066 2711                      	clr		counter
+                                 
+                                 SKIP:	
+                                 
+000067 91ff                      	pop		ZH
+000068 91ef                      	pop		ZL
+000069 91bf                      	pop		XH
+00006a 91af                      	pop		XL
+00006b 910f                      	pop		r16
+00006c bf0f                      	out		SREG,r16
+00006d 910f                      	pop		r16	
+                                 
+00006e 9518                      	reti
+                                 
+                                 ;-----------------------------------
+                                 .org	$300
+                                 BCD:
+000300 303f
+000301 4f5b
+000302 6d66
+000303 077d
 
 
 RESOURCE USE INFORMATION
@@ -1041,39 +1056,39 @@ counted separately from r26..r31 here.
 .dseg memory usage only counts static data declared with .byte
 
 "ATmega16A" register use summary:
-x  :  18 y  :   0 z  :   0 r0 :   0 r1 :   0 r2 :   0 r3 :   0 r4 :   0 
+x  :   1 y  :   0 z  :   1 r0 :   0 r1 :   0 r2 :   0 r3 :   0 r4 :   0 
 r5 :   0 r6 :   0 r7 :   0 r8 :   0 r9 :   0 r10:   0 r11:   0 r12:   0 
-r13:   0 r14:   0 r15:   0 r16:  50 r17:   7 r18:   0 r19:   0 r20:   0 
-r21:   0 r22:   0 r23:   0 r24:   0 r25:   0 r26:   2 r27:   2 r28:   0 
-r29:   0 r30:   0 r31:   0 
-Registers used: 5 out of 35 (14.3%)
+r13:   0 r14:   0 r15:   0 r16:  29 r17:   6 r18:   6 r19:   0 r20:   0 
+r21:   0 r22:   0 r23:   0 r24:   0 r25:   0 r26:   7 r27:   6 r28:   0 
+r29:   0 r30:   6 r31:   5 
+Registers used: 9 out of 35 (25.7%)
 
 "ATmega16A" instruction use summary:
-.lds  :   0 .sts  :   0 adc   :   0 add   :   0 adiw  :   5 and   :   0 
+.lds  :   0 .sts  :   0 adc   :   0 add   :   2 adiw  :   0 and   :   0 
 andi  :   0 asr   :   0 bclr  :   0 bld   :   0 brbc  :   0 brbs  :   0 
 brcc  :   0 brcs  :   0 break :   0 breq  :   0 brge  :   0 brhc  :   0 
 brhs  :   0 brid  :   0 brie  :   0 brlo  :   0 brlt  :   0 brmi  :   0 
-brne  :   6 brpl  :   0 brsh  :   0 brtc  :   0 brts  :   0 brvc  :   0 
-brvs  :   0 bset  :   0 bst   :   0 call  :   1 cbi   :   0 cbr   :   0 
-clc   :   0 clh   :   0 cli   :   0 cln   :   0 clr   :   1 cls   :   0 
+brne  :   2 brpl  :   0 brsh  :   0 brtc  :   0 brts  :   0 brvc  :   0 
+brvs  :   0 bset  :   0 bst   :   0 call  :   0 cbi   :   0 cbr   :   0 
+clc   :   0 clh   :   0 cli   :   0 cln   :   0 clr   :   4 cls   :   0 
 clt   :   0 clv   :   0 clz   :   0 com   :   0 cp    :   0 cpc   :   0 
-cpi   :   6 cpse  :   0 dec   :   0 eor   :   0 fmul  :   0 fmuls :   0 
-fmulsu:   0 icall :   0 ijmp  :   0 in    :   0 inc   :   6 jmp   :   3 
-ld    :   5 ldd   :   0 ldi   :  17 lds   :   0 lpm   :   0 lsl   :   0 
+cpi   :   2 cpse  :   0 dec   :   0 eor   :   0 fmul  :   0 fmuls :   0 
+fmulsu:   0 icall :   0 ijmp  :   0 in    :   0 inc   :   2 jmp   :   3 
+ld    :   1 ldd   :   0 ldi   :  15 lds   :   0 lpm   :   2 lsl   :   0 
 lsr   :   0 mov   :   0 movw  :   0 mul   :   0 muls  :   0 mulsu :   0 
-neg   :   0 nop   :   0 or    :   0 ori   :   0 out   :  10 pop   :   4 
-push  :   4 rcall :   0 ret   :   3 reti  :   2 rjmp  :   1 rol   :   0 
+neg   :   0 nop   :   0 or    :   0 ori   :   0 out   :  10 pop   :  13 
+push  :  13 rcall :   0 ret   :   0 reti  :   2 rjmp  :   1 rol   :   0 
 ror   :   0 sbc   :   0 sbci  :   0 sbi   :   0 sbic  :   0 sbis  :   0 
 sbiw  :   0 sbr   :   0 sbrc  :   0 sbrs  :   0 sec   :   0 seh   :   0 
 sei   :   1 sen   :   0 ser   :   0 ses   :   0 set   :   0 sev   :   0 
-sez   :   0 sleep :   0 spm   :   0 st    :   8 std   :   0 sts   :   0 
+sez   :   0 sleep :   0 spm   :   0 st    :   0 std   :   0 sts   :   0 
 sub   :   0 subi  :   0 swap  :   0 tst   :   0 wdr   :   0 
-Instructions used: 17 out of 113 (15.0%)
+Instructions used: 15 out of 113 (13.3%)
 
 "ATmega16A" memory use summary [bytes]:
 Segment   Begin    End      Code   Data   Used    Size   Use%
 ---------------------------------------------------------------
-[.cseg] 0x000000 0x0000f6    174      0    174   16384   1.1%
+[.cseg] 0x000000 0x00060a    150     10    160   16384   1.0%
 [.dseg] 0x000060 0x000060      0      0      0    1024   0.0%
 [.eseg] 0x000000 0x000000      0      0      0     512   0.0%
 

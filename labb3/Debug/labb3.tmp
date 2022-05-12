@@ -22,15 +22,13 @@
   <FILE>labb3.lss</FILE>
  </OUTPUT_FILES>
  <LABELS>
-  <INIT><FILE>C:\Users\Felix\Projects\TSEA77\labb3\main.asm</FILE><LINE>39</LINE></INIT>
-  <MAIN><FILE>C:\Users\Felix\Projects\TSEA77\labb3\main.asm</FILE><LINE>57</LINE></MAIN>
-  <LOOPTEST><FILE>C:\Users\Felix\Projects\TSEA77\labb3\main.asm</FILE><LINE>86</LINE></LOOPTEST>
-  <BCD><FILE>C:\Users\Felix\Projects\TSEA77\labb3\main.asm</FILE><LINE>62</LINE></BCD>
-  <DONE><FILE>C:\Users\Felix\Projects\TSEA77\labb3\main.asm</FILE><LINE>78</LINE></DONE>
-  <LOOP><FILE>C:\Users\Felix\Projects\TSEA77\labb3\main.asm</FILE><LINE>88</LINE></LOOP>
-  <MUX><FILE>C:\Users\Felix\Projects\TSEA77\labb3\main.asm</FILE><LINE>94</LINE></MUX>
-  <MUX_LOOP><FILE>C:\Users\Felix\Projects\TSEA77\labb3\main.asm</FILE><LINE>103</LINE></MUX_LOOP>
-  <ISR0><FILE>C:\Users\Felix\Projects\TSEA77\labb3\main.asm</FILE><LINE>122</LINE></ISR0>
-  <ISR1><FILE>C:\Users\Felix\Projects\TSEA77\labb3\main.asm</FILE><LINE>127</LINE></ISR1>
+  <INIT><FILE>C:\Users\Felix\Projects\TSEA77\labb3\main.asm</FILE><LINE>40</LINE></INIT>
+  <ISR0><FILE>C:\Users\Felix\Projects\TSEA77\labb3\main.asm</FILE><LINE>68</LINE></ISR0>
+  <ISR1><FILE>C:\Users\Felix\Projects\TSEA77\labb3\main.asm</FILE><LINE>121</LINE></ISR1>
+  <MAIN><FILE>C:\Users\Felix\Projects\TSEA77\labb3\main.asm</FILE><LINE>61</LINE></MAIN>
+  <LOOP><FILE>C:\Users\Felix\Projects\TSEA77\labb3\main.asm</FILE><LINE>82</LINE></LOOP>
+  <DONE><FILE>C:\Users\Felix\Projects\TSEA77\labb3\main.asm</FILE><LINE>109</LINE></DONE>
+  <BCD><FILE>C:\Users\Felix\Projects\TSEA77\labb3\main.asm</FILE><LINE>166</LINE></BCD>
+  <SKIP><FILE>C:\Users\Felix\Projects\TSEA77\labb3\main.asm</FILE><LINE>152</LINE></SKIP>
  </LABELS>
 </ASSEMBLER_INFO>
