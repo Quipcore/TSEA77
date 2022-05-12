@@ -7,7 +7,7 @@
   <DIR>D:\Programs\Microchip Studio\7.0\toolchain\avr8\avrassembler\Include</DIR>
   <DIR></DIR>
  </INCLUDE_PATH>
- <SOURCE_FILE>D:\Code repositories\Skola\TSEA77\DemoLax\demo1.asm</SOURCE_FILE>
+ <SOURCE_FILE>D:\Code repositories\Skola\TSEA77\DemoLax\DemoLax4.asm</SOURCE_FILE>
  <INCLUDED_FILES>
   <FILE>D:/Programs\Microchip Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\avrasm\inc\m16Adef.inc</FILE>
  </INCLUDED_FILES>
@@ -22,9 +22,11 @@
   <FILE>DemoLax.lss</FILE>
  </OUTPUT_FILES>
  <LABELS>
-  <init><FILE>D:\Code repositories\Skola\TSEA77\DemoLax\demo1.asm</FILE><LINE>18</LINE></init>
-  <intZero><FILE>D:\Code repositories\Skola\TSEA77\DemoLax\demo1.asm</FILE><LINE>51</LINE></intZero>
-  <main><FILE>D:\Code repositories\Skola\TSEA77\DemoLax\demo1.asm</FILE><LINE>45</LINE></main>
-  <PRINT><FILE>D:\Code repositories\Skola\TSEA77\DemoLax\demo1.asm</FILE><LINE>58</LINE></PRINT>
+  <START><FILE>D:\Code repositories\Skola\TSEA77\DemoLax\DemoLax4.asm</FILE><LINE>24</LINE></START>
+  <ISR0><FILE>D:\Code repositories\Skola\TSEA77\DemoLax\DemoLax4.asm</FILE><LINE>60</LINE></ISR0>
+  <ISR1><FILE>D:\Code repositories\Skola\TSEA77\DemoLax\DemoLax4.asm</FILE><LINE>79</LINE></ISR1>
+  <INIT><FILE>D:\Code repositories\Skola\TSEA77\DemoLax\DemoLax4.asm</FILE><LINE>40</LINE></INIT>
+  <MAIN><FILE>D:\Code repositories\Skola\TSEA77\DemoLax\DemoLax4.asm</FILE><LINE>32</LINE></MAIN>
+  <CON><FILE>D:\Code repositories\Skola\TSEA77\DemoLax\DemoLax4.asm</FILE><LINE>70</LINE></CON>
  </LABELS>
 </ASSEMBLER_INFO>
