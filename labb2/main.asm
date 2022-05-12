@@ -6,6 +6,8 @@
 ;
 
 SETUP:
+	.equ		FREQ = 300
+
 	ldi			r16,HIGH(RAMEND)
 	out			SPH,r16
 	ldi			r16,LOW(RAMEND)
@@ -38,21 +40,19 @@ LOOP_MORSE:
 
 	lpm			r16,Z
 
-	subi		r16,$41
-	cpi			r16,BTAB_END*2-BTAB*2-1
-	brmi		CONTINUE ;if r16 is not a char in BTAB nobeep 7x and jump to bottom of loop
-						 ; super ugly approach, needs refactoring
-	call		NOBEEP_FIVE
-	jmp			MINMIN
+	cpi			r16,$20
+	breq		SPACE
 
-CONTINUE:
+	subi		r16,$41
+
 	call		LOOKUP
 	call		SEND
 
-MINMIN:
 	call		NOBEEP
 	call		NOBEEP
 
+
+MINMIN:
 	dec			r20
 	brne		LOOP_MORSE
 
@@ -62,6 +62,12 @@ MINMIN:
 	call		NOBEEP_FIVE
 
 	rjmp		MORSE
+
+SPACE:
+	call		NOBEEP_FIVE
+	call		NOBEEP
+	call		NOBEEP
+	jmp			MINMIN
 
 	;---------------------------------------------------------------------
 
@@ -105,14 +111,31 @@ BEEP: ;return void
 	;	r19  - temp storage 
 	ldi			r19,$1
 	out			PORTB,r19
-	call		DElAY	
+	ldi			r19,$20
+	call		BEEP_LOOP	
 	ret
+	
+	BEEP_LOOP:
+		sbi PORTB, $0
+		call WAIT
+		cbi PORTB, $0
+		call WAIT
+		dec r19
+		brne BEEP_LOOP
+		ret
 
+WAIT:
+	ldi r25, HIGH(FREQ)
+	ldi r24, LOW(FREQ)
+	WAIT_LOOP:
+		sbiw r24, 1
+		brne WAIT_LOOP
+		ret
 	;---------------------------------------------------------------------
 
 NOBEEP: ;return void
 	;	r19  - temp storage
-	ldi			r19,$2 ; 0d10, need the first and only 1 for debug purposes
+	ldi			r19,$0 ; 0d10, need the first and only 1 for debug purposes
 	out			PORTB,r19
 	call		DELAY
 	ret
@@ -140,7 +163,7 @@ DELAY: ; return void
 	subi		r24,LOW(SIGNAL_TIME*4000)-1 ; see notes for more info
 	subi		r25,HIGH(SIGNAL_TIME*4000)
 
-LOOP_DELAY:
+	LOOP_DELAY:
 	adiw		r24,1
 	brne		LOOP_DELAY
 	ret
@@ -159,7 +182,7 @@ BTAB_END:
 
 	.org $125 ; Sets MESSAGE and MESSAGE_END at adress $125
 MESSAGE:
-	.db		"H E", $00 ; if message_length % 2 = 0, dont pad with zero
+	.db		"SOS SOS", $00 ; if message_length % 2 = 0, dont pad with zero
 
 MESSAGE_END:
 	.db		"END",$00
