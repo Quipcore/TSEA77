@@ -1,0 +1,36 @@
+<ASSEMBLER_INFO>
+ <VERSION>2.2.8</VERSION>
+ <DEVICE>"ATmega16A"</DEVICE>
+ <WORKING_DIR>D:\Code repositories\Skola\TSEA77\labb4\Debug</WORKING_DIR>
+ <INCLUDE_PATH>
+  <DIR>D:/Programs\Microchip Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\avrasm\inc</DIR>
+  <DIR>D:\Programs\Microchip Studio\7.0\toolchain\avr8\avrassembler\Include</DIR>
+  <DIR></DIR>
+ </INCLUDE_PATH>
+ <SOURCE_FILE>D:\Code repositories\Skola\TSEA77\labb4\testing.asm</SOURCE_FILE>
+ <INCLUDED_FILES>
+  <FILE>D:/Programs\Microchip Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\avrasm\inc\m16Adef.inc</FILE>
+ </INCLUDED_FILES>
+ <OBJECT_FILES>
+  <FILE>D:\Code repositories\Skola\TSEA77\labb4\Debug\labb4.obj</FILE>
+ </OBJECT_FILES>
+ <HEX_FILES>
+  <FILE>labb4.hex</FILE>
+ </HEX_FILES>
+ <OUTPUT_FILES>
+  <FILE>labb4.map</FILE>
+  <FILE>labb4.lss</FILE>
+ </OUTPUT_FILES>
+ <LABELS>
+  <POSX><FILE>D:\Code repositories\Skola\TSEA77\labb4\testing.asm</FILE><LINE>19</LINE></POSX>
+  <POSY><FILE>D:\Code repositories\Skola\TSEA77\labb4\testing.asm</FILE><LINE>20</LINE></POSY>
+  <TPOSX><FILE>D:\Code repositories\Skola\TSEA77\labb4\testing.asm</FILE><LINE>21</LINE></TPOSX>
+  <TPOSY><FILE>D:\Code repositories\Skola\TSEA77\labb4\testing.asm</FILE><LINE>22</LINE></TPOSY>
+  <LINE><FILE>D:\Code repositories\Skola\TSEA77\labb4\testing.asm</FILE><LINE>23</LINE></LINE>
+  <VMEM><FILE>D:\Code repositories\Skola\TSEA77\labb4\testing.asm</FILE><LINE>24</LINE></VMEM>
+  <SEED><FILE>D:\Code repositories\Skola\TSEA77\labb4\testing.asm</FILE><LINE>25</LINE></SEED>
+  <START><FILE>D:\Code repositories\Skola\TSEA77\labb4\testing.asm</FILE><LINE>29</LINE></START>
+  <main><FILE>D:\Code repositories\Skola\TSEA77\labb4\testing.asm</FILE><LINE>34</LINE></main>
+  <incSeed><FILE>D:\Code repositories\Skola\TSEA77\labb4\testing.asm</FILE><LINE>38</LINE></incSeed>
+ </LABELS>
+</ASSEMBLER_INFO>

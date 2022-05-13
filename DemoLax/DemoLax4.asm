@@ -57,18 +57,17 @@ INIT:
 ; INTERRUPTS
 ;---------------------------------------------------------------------
 
-ISR0:
+ISR0: ; NOT FINISHED
 	push	r16
 	ldi		r16,SREG
 	push	r16
 
 	in		r16,PINB
-	cpi		r16,$
+	cpi		r16,$0
 	brne	CON
 	swap	r16
 
 CON:
-	
 	pop		r16
 	out		SREG,r16
 	pop		r16

@@ -11,10 +11,10 @@
 jmp		INIT            ; Reset Handler
 
 .org	INT0addr
-jmp		ISR0             ; INT0 Handler
+jmp		ISR0            ; INT0 Handler
 
 .org	INT1addr
-jmp		ISR1              ; INT1 Handler
+jmp		ISR1            ; INT1 Handler
 
 
 .org	INT_VECTORS_SIZE
@@ -43,9 +43,9 @@ INIT:
 	ldi     r16,LOW(RAMEND)
 	out     SPL,r16
 
-	ldi		r16,0b00000011
+	ldi		r16,3
 	out		DDRA,r16 //Write seconds
-	ldi		r16,0b01111111
+	ldi		r16,127
 	out		DDRB,r16 //Write minutes
 
 	ldi     r16,(1<<ISC01) |(0<<ISC00) |(1<<ISC11) |(0<<ISC10)
@@ -59,7 +59,6 @@ INIT:
 	sei
 
 MAIN:
-
     rjmp	MAIN
 
 ;---------------------------------------------------------------------
