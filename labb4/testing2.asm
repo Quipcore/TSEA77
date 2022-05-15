@@ -1,10 +1,10 @@
 /*
- * testing.asm
+ * testing2.asm
  *
- *  Created: 2022-05-13 09:58:46
- *   Author: felix
+ *  Created: 2022-05-15 15:19:51
+ *   Author: Felix
  */ 
- 	.equ	VMEM_SZ     = 5		; #rows on display
+  	.equ	VMEM_SZ     = 5		; #rows on display
 	.equ	AD_CHAN_X   = 0		; ADC0=PA0, PORTA bit 0 X-led
 	.equ	AD_CHAN_Y   = 1		; ADC1=PA1, PORTA bit 1 Y-led
 	.equ	GAME_SPEED  = 70	; inter-run delay (millisecs)
@@ -43,7 +43,43 @@ START:
 	jmp main
 
 TEST_METHOD:
-	call	JOYSTICK
+	lds		r16,SEED
+	subi	r16,-1
+	sts		SEED,r16
+	ret
+
+MUX:
+	in		r16,SPH
+	mov		ZH,r16
+	in		r16,SPL
+	mov		ZL,r16
+	lds		r16,SEED
+
+	mov		r17,r16
+
+	andi	r16,0b00000111
+	cpi		r16,4
+	brmi	CON1_RANDOM
+	subi	r16,4
+
+CON1_RANDOM:
+	
+	andi	r17,0b00111000
+	lsr		r17
+	lsr		r17
+	lsr		r17
+	cpi		r17,4
+	brmi	CON2_RANDOM
+	subi	r17,4
+
+CON2_RANDOM:
+	out		PORTB,r17 ; y
+	out		PORTA,r16 ; x
+	reti
+
+
+RANDOM:
+	
 	ret
 
 HW_INIT:
@@ -57,42 +93,4 @@ HW_INIT:
 	out		DDRB,r16
 	
 	sei
-	ret
-
-MUX:
-	//ldi		r16,$FF
-	//out		PORTA,r16
-	reti
-
-
-JOYSTICK:
-
-	//ldi		r16,(1<<REFS0) |(0<<ADLAR) ; kanal 0, AVCC ref, ADLAR=0
-	call	ADC10
-	out		PORTB,r16
-
-	//ldi		r16,(0<<REFS0) |(0<<ADLAR) ; kanal 0, AVCC ref, ADLAR=0
-	call	ADC10
-	out		PORTD,r16
-	
-JOY_LIM:
-	ret
-
-
-ADC10:
-	ldi		r16,(1<<REFS0) |(0<<ADLAR) ; kanal 0, AVCC ref, ADLAR=0
-	out		ADMUX,r16
-	ldi		r16,(1<<ADEN) ; A/D enable, ADPSx=111
-	ori		r16,(1<<ADPS2)|(1<<ADPS1)|(1<<ADPS0)
-	out		ADCSRA,r16
-ADC10_CONVERT:
-	in		r16,ADCSRA
-	ori		r16,(1<<ADSC)
-	out		ADCSRA,r16 ; starta omvandling
-ADC10_WAIT:
-	in		r16,ADCSRA
-	sbrc	r16,ADSC ; om 0-ställd, klar
-	rjmp	ADC10_WAIT ; annars vänta
-	in		r16,ADCL ; obs, läs låg byte först
-	in		r17,ADCH ; hög byte sedan
 	ret

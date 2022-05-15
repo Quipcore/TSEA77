@@ -61,24 +61,14 @@ RUN:
 	call	DELAY
 	
 //*** 	Avgör om träff				 	***
-	ldi		XH,HIGH(POSX)
-	ldi		XL,LOW(POSX)
-	ld		r16,X
-
-	ldi		XH,HIGH(TPOSX)
-	ldi		XL,LOW(TPOSX)
-	ld		r17,X
+	lds		r16,POSX
+	lds		r17,TPOSX
 
 	cp		r16,r17
 	brne	NO_HIT
 
-	ldi		XH,HIGH(POSY)
-	ldi		XL,LOW(POSY)
-	ld		r16,X
-
-	ldi		XH,HIGH(TPOSY)
-	ldi		XL,LOW(TPOSY)
-	ld		r17,X
+	lds		r16,POSY
+	lds		r17,TPOSY
 
 	cp		r16,r17
 	brne	NO_HIT	
@@ -314,6 +304,7 @@ CON1_RANDOM:
 	lsr		r17
 	lsr		r17
 	lsr		r17
+
 	cpi		r17,4
 	brmi	CON2_RANDOM
 	subi	r17,4

@@ -1,18 +1,18 @@
 <ASSEMBLER_INFO>
  <VERSION>2.2.8</VERSION>
  <DEVICE>"ATmega16A"</DEVICE>
- <WORKING_DIR>D:\Code repositories\Skola\TSEA77\labb4\Debug</WORKING_DIR>
+ <WORKING_DIR>C:\Users\Felix\Projects\TSEA77\labb4\Debug</WORKING_DIR>
  <INCLUDE_PATH>
-  <DIR>D:/Programs\Microchip Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\avrasm\inc</DIR>
-  <DIR>D:\Programs\Microchip Studio\7.0\toolchain\avr8\avrassembler\Include</DIR>
+  <DIR>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\avrasm\inc</DIR>
+  <DIR>C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avrassembler\Include</DIR>
   <DIR></DIR>
  </INCLUDE_PATH>
- <SOURCE_FILE>D:\Code repositories\Skola\TSEA77\labb4\main.asm</SOURCE_FILE>
+ <SOURCE_FILE>C:\Users\Felix\Projects\TSEA77\labb4\testing2.asm</SOURCE_FILE>
  <INCLUDED_FILES>
-  <FILE>D:/Programs\Microchip Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\avrasm\inc\m16Adef.inc</FILE>
+  <FILE>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\avrasm\inc\m16Adef.inc</FILE>
  </INCLUDED_FILES>
  <OBJECT_FILES>
-  <FILE>D:\Code repositories\Skola\TSEA77\labb4\Debug\labb4.obj</FILE>
+  <FILE>C:\Users\Felix\Projects\TSEA77\labb4\Debug\labb4.obj</FILE>
  </OBJECT_FILES>
  <HEX_FILES>
   <FILE>labb4.hex</FILE>
@@ -22,48 +22,21 @@
   <FILE>labb4.lss</FILE>
  </OUTPUT_FILES>
  <LABELS>
-  <POSX><FILE>D:\Code repositories\Skola\TSEA77\labb4\main.asm</FILE><LINE>15</LINE></POSX>
-  <POSY><FILE>D:\Code repositories\Skola\TSEA77\labb4\main.asm</FILE><LINE>16</LINE></POSY>
-  <TPOSX><FILE>D:\Code repositories\Skola\TSEA77\labb4\main.asm</FILE><LINE>17</LINE></TPOSX>
-  <TPOSY><FILE>D:\Code repositories\Skola\TSEA77\labb4\main.asm</FILE><LINE>18</LINE></TPOSY>
-  <LINE><FILE>D:\Code repositories\Skola\TSEA77\labb4\main.asm</FILE><LINE>19</LINE></LINE>
-  <VMEM><FILE>D:\Code repositories\Skola\TSEA77\labb4\main.asm</FILE><LINE>20</LINE></VMEM>
-  <SEED><FILE>D:\Code repositories\Skola\TSEA77\labb4\main.asm</FILE><LINE>21</LINE></SEED>
-  <MUXPOS><FILE>D:\Code repositories\Skola\TSEA77\labb4\main.asm</FILE><LINE>22</LINE></MUXPOS>
-  <START><FILE>D:\Code repositories\Skola\TSEA77\labb4\main.asm</FILE><LINE>48</LINE></START>
-  <MUX><FILE>D:\Code repositories\Skola\TSEA77\labb4\main.asm</FILE><LINE>93</LINE></MUX>
-  <HW_INIT><FILE>D:\Code repositories\Skola\TSEA77\labb4\main.asm</FILE><LINE>247</LINE></HW_INIT>
-  <WARM><FILE>D:\Code repositories\Skola\TSEA77\labb4\main.asm</FILE><LINE>267</LINE></WARM>
-  <RUN><FILE>D:\Code repositories\Skola\TSEA77\labb4\main.asm</FILE><LINE>56</LINE></RUN>
-  <JOYSTICK><FILE>D:\Code repositories\Skola\TSEA77\labb4\main.asm</FILE><LINE>131</LINE></JOYSTICK>
-  <ERASE_VMEM><FILE>D:\Code repositories\Skola\TSEA77\labb4\main.asm</FILE><LINE>330</LINE></ERASE_VMEM>
-  <UPDATE><FILE>D:\Code repositories\Skola\TSEA77\labb4\main.asm</FILE><LINE>208</LINE></UPDATE>
-  <DELAY><FILE>D:\Code repositories\Skola\TSEA77\labb4\main.asm</FILE><LINE>382</LINE></DELAY>
-  <NO_HIT><FILE>D:\Code repositories\Skola\TSEA77\labb4\main.asm</FILE><LINE>88</LINE></NO_HIT>
-  <BEEP><FILE>D:\Code repositories\Skola\TSEA77\labb4\main.asm</FILE><LINE>356</LINE></BEEP>
-  <SHOW_TARGET><FILE>D:\Code repositories\Skola\TSEA77\labb4\main.asm</FILE><LINE>110</LINE></SHOW_TARGET>
-  <CONTINUE><FILE>D:\Code repositories\Skola\TSEA77\labb4\main.asm</FILE><LINE>119</LINE></CONTINUE>
-  <ADC8><FILE>D:\Code repositories\Skola\TSEA77\labb4\main.asm</FILE><LINE>399</LINE></ADC8>
-  <SET_RIGHT><FILE>D:\Code repositories\Skola\TSEA77\labb4\main.asm</FILE><LINE>149</LINE></SET_RIGHT>
-  <JOY_LIM><FILE>D:\Code repositories\Skola\TSEA77\labb4\main.asm</FILE><LINE>175</LINE></JOY_LIM>
-  <SET_YRIGHT><FILE>D:\Code repositories\Skola\TSEA77\labb4\main.asm</FILE><LINE>168</LINE></SET_YRIGHT>
-  <LIMITS><FILE>D:\Code repositories\Skola\TSEA77\labb4\main.asm</FILE><LINE>182</LINE></LIMITS>
-  <POS_LIM><FILE>D:\Code repositories\Skola\TSEA77\labb4\main.asm</FILE><LINE>193</LINE></POS_LIM>
-  <POS_LESS><FILE>D:\Code repositories\Skola\TSEA77\labb4\main.asm</FILE><LINE>199</LINE></POS_LESS>
-  <POS_OK><FILE>D:\Code repositories\Skola\TSEA77\labb4\main.asm</FILE><LINE>201</LINE></POS_OK>
-  <SETPOS><FILE>D:\Code repositories\Skola\TSEA77\labb4\main.asm</FILE><LINE>221</LINE></SETPOS>
-  <SETBIT><FILE>D:\Code repositories\Skola\TSEA77\labb4\main.asm</FILE><LINE>234</LINE></SETBIT>
-  <SETBIT_LOOP><FILE>D:\Code repositories\Skola\TSEA77\labb4\main.asm</FILE><LINE>236</LINE></SETBIT_LOOP>
-  <SETBIT_END><FILE>D:\Code repositories\Skola\TSEA77\labb4\main.asm</FILE><LINE>241</LINE></SETBIT_END>
-  <RANDOM><FILE>D:\Code repositories\Skola\TSEA77\labb4\main.asm</FILE><LINE>297</LINE></RANDOM>
-  <CON1_RANDOM><FILE>D:\Code repositories\Skola\TSEA77\labb4\main.asm</FILE><LINE>311</LINE></CON1_RANDOM>
-  <CON2_RANDOM><FILE>D:\Code repositories\Skola\TSEA77\labb4\main.asm</FILE><LINE>321</LINE></CON2_RANDOM>
-  <ERASE_LOOP><FILE>D:\Code repositories\Skola\TSEA77\labb4\main.asm</FILE><LINE>341</LINE></ERASE_LOOP>
-  <BEEP_LOOP><FILE>D:\Code repositories\Skola\TSEA77\labb4\main.asm</FILE><LINE>363</LINE></BEEP_LOOP>
-  <WAIT><FILE>D:\Code repositories\Skola\TSEA77\labb4\main.asm</FILE><LINE>372</LINE></WAIT>
-  <WAIT_LOOP><FILE>D:\Code repositories\Skola\TSEA77\labb4\main.asm</FILE><LINE>375</LINE></WAIT_LOOP>
-  <DELAY_LOOP><FILE>D:\Code repositories\Skola\TSEA77\labb4\main.asm</FILE><LINE>389</LINE></DELAY_LOOP>
-  <ADC8_CONVERT><FILE>D:\Code repositories\Skola\TSEA77\labb4\main.asm</FILE><LINE>404</LINE></ADC8_CONVERT>
-  <ADC8_WAIT><FILE>D:\Code repositories\Skola\TSEA77\labb4\main.asm</FILE><LINE>408</LINE></ADC8_WAIT>
+  <POSX><FILE>C:\Users\Felix\Projects\TSEA77\labb4\testing2.asm</FILE><LINE>19</LINE></POSX>
+  <POSY><FILE>C:\Users\Felix\Projects\TSEA77\labb4\testing2.asm</FILE><LINE>20</LINE></POSY>
+  <TPOSX><FILE>C:\Users\Felix\Projects\TSEA77\labb4\testing2.asm</FILE><LINE>21</LINE></TPOSX>
+  <TPOSY><FILE>C:\Users\Felix\Projects\TSEA77\labb4\testing2.asm</FILE><LINE>22</LINE></TPOSY>
+  <LINE><FILE>C:\Users\Felix\Projects\TSEA77\labb4\testing2.asm</FILE><LINE>23</LINE></LINE>
+  <VMEM><FILE>C:\Users\Felix\Projects\TSEA77\labb4\testing2.asm</FILE><LINE>24</LINE></VMEM>
+  <SEED><FILE>C:\Users\Felix\Projects\TSEA77\labb4\testing2.asm</FILE><LINE>25</LINE></SEED>
+  <MUXPOS><FILE>C:\Users\Felix\Projects\TSEA77\labb4\testing2.asm</FILE><LINE>26</LINE></MUXPOS>
+  <START><FILE>C:\Users\Felix\Projects\TSEA77\labb4\testing2.asm</FILE><LINE>34</LINE></START>
+  <MUX><FILE>C:\Users\Felix\Projects\TSEA77\labb4\testing2.asm</FILE><LINE>51</LINE></MUX>
+  <HW_INIT><FILE>C:\Users\Felix\Projects\TSEA77\labb4\testing2.asm</FILE><LINE>85</LINE></HW_INIT>
+  <main><FILE>C:\Users\Felix\Projects\TSEA77\labb4\testing2.asm</FILE><LINE>41</LINE></main>
+  <TEST_METHOD><FILE>C:\Users\Felix\Projects\TSEA77\labb4\testing2.asm</FILE><LINE>45</LINE></TEST_METHOD>
+  <CON1_RANDOM><FILE>C:\Users\Felix\Projects\TSEA77\labb4\testing2.asm</FILE><LINE>65</LINE></CON1_RANDOM>
+  <CON2_RANDOM><FILE>C:\Users\Felix\Projects\TSEA77\labb4\testing2.asm</FILE><LINE>75</LINE></CON2_RANDOM>
+  <RANDOM><FILE>C:\Users\Felix\Projects\TSEA77\labb4\testing2.asm</FILE><LINE>81</LINE></RANDOM>
  </LABELS>
 </ASSEMBLER_INFO>
