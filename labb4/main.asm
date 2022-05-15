@@ -19,6 +19,7 @@ TPOSY:	.byte	1
 LINE:	.byte	1	; Current line	
 VMEM:	.byte	VMEM_SZ ; Video MEMory
 SEED:	.byte	1	; Seed for Random
+MUXPOS: .byte   1   ; The counter for muxing
 
 	; ---------------------------------------
 	; --- Macros for inc/dec-rementing
@@ -60,8 +61,6 @@ RUN:
 	call	DELAY
 	
 //*** 	Avgör om träff				 	***
-	//if(POSX == TPOSX && POSY == TPOSY)
-
 	ldi		XH,HIGH(POSX)
 	ldi		XL,LOW(POSX)
 	ld		r16,X
@@ -95,11 +94,35 @@ MUX:
 
 //*** 	skriv rutin som handhar multiplexningen och ***
 //*** 	utskriften till diodmatrisen. Öka SEED.		***
-	ldi		XH,HIGH(SEED)
-	ldi		XL,LOW(SEED)
-	ld		r16,X
-	adiw	r16,1
-	st		X,r16
+
+	lds		r16,MUXPOS
+	cpi		r16,0
+	brne    SHOW_TARGET
+
+	ldi		r16,1
+	sts		MUXPOS,r16
+
+	lds		r16,POSX
+	lds		r17,POSY
+
+	rjmp	CONTINUE
+
+SHOW_TARGET:
+
+	ldi		r16,0
+	sts		MUXPOS,r16
+
+	lds		r16,TPOSX
+	lds		r17,TPOSY
+
+
+CONTINUE:
+	out		PORTA,r16
+	out		PORTB,r17
+
+	lds		r16,SEED
+	subi	r16,-1
+	sts		SEED,r16
 	reti
 		
 	; ---------------------------------------
@@ -111,6 +134,43 @@ JOYSTICK:
 //*** 	på insignalen från A/D-omvandlaren i X-led...	***
 
 //*** 	...och samma för Y-led 				***
+
+	ldi		r16,(1<<REFS0)|(0<<ADLAR) ; kanal 0, AVCC ref
+									  ; left adjust
+	call	ADC8
+
+	cpi		r16,0b11
+	brne	SET_RIGHT
+	lds		r16,POSX
+	dec		r16
+	sts		POSX,r16
+	jmp		JOY_LIM
+
+SET_RIGHT:
+	cpi		r16,0b00
+	brne	JOY_LIM
+	lds		r16,POSX
+	inc		r16
+	sts		POSX,r16
+
+	ldi		r16,(1<<REFS1)|(0<<ADLAR) ; kanal 0, AVCC ref
+									  ; left adjust
+
+	call ADC8
+
+	cpi		r16,0b11
+	brne	SET_YRIGHT
+	lds		r16,POSY
+	dec		r16
+	sts		POSY,r16
+	jmp		JOY_LIM
+
+SET_YRIGHT:
+	cpi		r16,0b00
+	brne	JOY_LIM
+	lds		r16,POSY
+	inc		r16
+	sts		POSY,r16
 
 JOY_LIM:
 	call	LIMITS		; don't fall off world!
@@ -194,8 +254,12 @@ HW_INIT:
 	out     MCUCR,r16; Activate
 	ldi     r16,(1<<INT0) | (0<<INT1)
 	out     GICR,r16; Enable Interrupts Globally
+
+	ldi		r16,$FF
+	out		DDRA,r16
+	out		DDRB,r16
 	
-	sei			; display on
+	sei
 	ret
 
 	; ---------------------------------------
@@ -203,14 +267,19 @@ HW_INIT:
 WARM:
 
 //*** 	Sätt startposition (POSX,POSY)=(0,2)		***
-
+	ldi		r16,0
+	sts		POSX,r16
+	ldi		r16,2
+	sts		POSY,r16	
+		
 	push	r0		
 	push	r0		
 	call	RANDOM		; RANDOM returns x,y on stack
-	
 	pop		r16 ; x
 	pop		r17 ; y
-//*** 	Sätt startposition (TPOSX,POSY)				***
+	
+	sts		TPOSX,r16
+	sts		TPOSY,r17
 
 	call	ERASE_VMEM
 	ret
@@ -232,17 +301,27 @@ RANDOM:
 	mov		ZL,r16
 	lds		r16,SEED
 
-/*	
-*** 	Använd SEED för att beräkna TPOSX		***
-*** 	Använd SEED för att beräkna TPOSX		***
-*/
+	mov		r17,r16
 
-/*
-	***		; store TPOSX	2..6
-	***		; store TPOSY   0..4
-*/
+	andi	r16,0b00000111
+	cpi		r16,4
+	brmi	CON1_RANDOM
+	subi	r16,4
+
+CON1_RANDOM:
+	
+	andi	r17,0b00111000
+	lsr		r17
+	lsr		r17
+	lsr		r17
+	cpi		r17,4
+	brmi	CON2_RANDOM
+	subi	r17,4
+
+CON2_RANDOM:
+	push	r17 ; y
+	push	r16 ; x
 	ret
-
 
 	; ---------------------------------------
 	; --- Erase Videomemory bytes
@@ -313,4 +392,22 @@ DELAY_LOOP:
 
 	pop		r25
 	pop		r24
+	ret
+
+
+
+ADC8:
+	out		ADMUX,r16
+	ldi		r16,(1<<ADEN) ; A/D enable, ADPSx=111
+	ori		r16,(1<<ADPS2)|(1<<ADPS1)|(1<<ADPS0)
+	out		ADCSRA,r16
+ADC8_CONVERT:
+	in		r16,ADCSRA
+	ori		r16,(1<<ADSC)
+	out		ADCSRA,r16 ; starta omvandling
+ADC8_WAIT:
+	in		r16,ADCSRA
+	sbrc	r16,ADSC ; om 0-ställd, klar
+	rjmp	ADC8_WAIT ; annars vänta
+	in		r16,ADCH ; en läsning av hög byte
 	ret

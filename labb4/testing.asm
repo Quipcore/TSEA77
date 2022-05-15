@@ -23,6 +23,7 @@ TPOSY:	.byte	1
 LINE:	.byte	1	; Current line	
 VMEM:	.byte	VMEM_SZ ; Video MEMory
 SEED:	.byte	1	; Seed for Random
+MUXPOS: .byte   1
 
 	.cseg
 
@@ -32,13 +33,12 @@ START:
 	ldi     r16,LOW(RAMEND)
 	out     SPL,r16		
  main:
-	call incSeed
+	call TEST_METHOD
 	jmp main
 
-incSeed:
-	ldi		XH,HIGH(SEED)
-	ldi		XL,LOW(SEED)
-	ld		r16,X
-	subi	r16,-1
-	st		X,r16
+TEST_METHOD:
+	ldi		r16,$FF
+	sts		POSX,r16
+	ldi		r16,2
+	sts		POSY,r16	
 	ret
