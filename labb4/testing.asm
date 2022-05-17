@@ -25,20 +25,71 @@ VMEM:	.byte	VMEM_SZ ; Video MEMory
 SEED:	.byte	1	; Seed for Random
 MUXPOS: .byte   1
 
-	.cseg
+	
+	; ---------------------------------------
+	; --- Macros for inc/dec-rementing
+	; --- a byte in SRAM
+	; ---------------------------------------
+	.macro INCSRAM	; inc byte in SRAM
+		lds	r16,@0
+		inc	r16
+		sts	@0,r16
+	.endmacro
 
+	.macro DECSRAM	; dec byte in SRAM
+		lds	r16,@0
+		dec	r16
+		sts	@0,r16
+	.endmacro
+	.cseg
 START:
 	ldi     r16,HIGH(RAMEND)
 	out     SPH,r16
 	ldi     r16,LOW(RAMEND)
 	out     SPL,r16		
  main:
-	call TEST_METHOD
+	call MUX
+	call MUX
+	call MUX
+	call MUX
+	call MUX
 	jmp main
 
-TEST_METHOD:
-	ldi		r16,$FF
-	sts		POSX,r16
-	ldi		r16,2
-	sts		POSY,r16	
+MUX:		
+	push	r16
+	in		r16,SREG
+	push	r16
+	push	r17
+	push	XH
+	push	XL
+
+	ldi		XH,HIGH(VMEM)
+	ldi		XL,LOW(VMEM)
+
+	lds		r16,LINE
+	add		XL,r16
+	ldi		r16,0
+	adc		XH,r16
+
+	ld		r16,X
+	out		PORTB,r16
+	lds		r16,LINE
+	//swap	r16
+	out		PORTD,r16
+
+	INCSRAM SEED
+	INCSRAM LINE
+
+	cpi		r16,VMEM_SZ
+	brne	END_MUX
+	ldi		r16,0
+	sts		LINE,r16
+
+END_MUX:
+	pop		XL
+	pop		XH
+	pop		r17
+	pop		r16
+	out		SREG,r16
+	pop		r16
 	ret
