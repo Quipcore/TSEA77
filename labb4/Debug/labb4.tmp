@@ -1,18 +1,22 @@
 <ASSEMBLER_INFO>
  <VERSION>2.2.8</VERSION>
  <DEVICE>"ATmega16A"</DEVICE>
- <WORKING_DIR>D:\Code repositories\Skola\TSEA77\labb4\Debug</WORKING_DIR>
+ <WORKING_DIR>C:\Users\Felix\Projects\TSEA77\labb4\Debug</WORKING_DIR>
  <INCLUDE_PATH>
-  <DIR>D:/Programs\Microchip Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\avrasm\inc</DIR>
-  <DIR>D:\Programs\Microchip Studio\7.0\toolchain\avr8\avrassembler\Include</DIR>
+  <DIR>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\avrasm\inc</DIR>
+  <DIR>C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avrassembler\Include</DIR>
   <DIR></DIR>
  </INCLUDE_PATH>
+<<<<<<< HEAD
  <SOURCE_FILE>D:\Code repositories\Skola\TSEA77\labb4\testing.asm</SOURCE_FILE>
+=======
+ <SOURCE_FILE>C:\Users\Felix\Projects\TSEA77\labb4\testing2.asm</SOURCE_FILE>
+>>>>>>> 65b3a4e76b892e88c186208fa5271e3d97bc1af0
  <INCLUDED_FILES>
-  <FILE>D:/Programs\Microchip Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\avrasm\inc\m16Adef.inc</FILE>
+  <FILE>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\avrasm\inc\m16Adef.inc</FILE>
  </INCLUDED_FILES>
  <OBJECT_FILES>
-  <FILE>D:\Code repositories\Skola\TSEA77\labb4\Debug\labb4.obj</FILE>
+  <FILE>C:\Users\Felix\Projects\TSEA77\labb4\Debug\labb4.obj</FILE>
  </OBJECT_FILES>
  <HEX_FILES>
   <FILE>labb4.hex</FILE>
@@ -22,6 +26,7 @@
   <FILE>labb4.lss</FILE>
  </OUTPUT_FILES>
  <LABELS>
+<<<<<<< HEAD
   <POSX><FILE>D:\Code repositories\Skola\TSEA77\labb4\testing.asm</FILE><LINE>19</LINE></POSX>
   <POSY><FILE>D:\Code repositories\Skola\TSEA77\labb4\testing.asm</FILE><LINE>20</LINE></POSY>
   <TPOSX><FILE>D:\Code repositories\Skola\TSEA77\labb4\testing.asm</FILE><LINE>21</LINE></TPOSX>
@@ -34,5 +39,23 @@
   <main><FILE>D:\Code repositories\Skola\TSEA77\labb4\testing.asm</FILE><LINE>50</LINE></main>
   <MUX><FILE>D:\Code repositories\Skola\TSEA77\labb4\testing.asm</FILE><LINE>58</LINE></MUX>
   <END_MUX><FILE>D:\Code repositories\Skola\TSEA77\labb4\testing.asm</FILE><LINE>88</LINE></END_MUX>
+=======
+  <POSX><FILE>C:\Users\Felix\Projects\TSEA77\labb4\testing2.asm</FILE><LINE>19</LINE></POSX>
+  <POSY><FILE>C:\Users\Felix\Projects\TSEA77\labb4\testing2.asm</FILE><LINE>20</LINE></POSY>
+  <TPOSX><FILE>C:\Users\Felix\Projects\TSEA77\labb4\testing2.asm</FILE><LINE>21</LINE></TPOSX>
+  <TPOSY><FILE>C:\Users\Felix\Projects\TSEA77\labb4\testing2.asm</FILE><LINE>22</LINE></TPOSY>
+  <LINE><FILE>C:\Users\Felix\Projects\TSEA77\labb4\testing2.asm</FILE><LINE>23</LINE></LINE>
+  <VMEM><FILE>C:\Users\Felix\Projects\TSEA77\labb4\testing2.asm</FILE><LINE>24</LINE></VMEM>
+  <SEED><FILE>C:\Users\Felix\Projects\TSEA77\labb4\testing2.asm</FILE><LINE>25</LINE></SEED>
+  <MUXPOS><FILE>C:\Users\Felix\Projects\TSEA77\labb4\testing2.asm</FILE><LINE>26</LINE></MUXPOS>
+  <START><FILE>C:\Users\Felix\Projects\TSEA77\labb4\testing2.asm</FILE><LINE>34</LINE></START>
+  <MUX><FILE>C:\Users\Felix\Projects\TSEA77\labb4\testing2.asm</FILE><LINE>51</LINE></MUX>
+  <HW_INIT><FILE>C:\Users\Felix\Projects\TSEA77\labb4\testing2.asm</FILE><LINE>85</LINE></HW_INIT>
+  <main><FILE>C:\Users\Felix\Projects\TSEA77\labb4\testing2.asm</FILE><LINE>41</LINE></main>
+  <TEST_METHOD><FILE>C:\Users\Felix\Projects\TSEA77\labb4\testing2.asm</FILE><LINE>45</LINE></TEST_METHOD>
+  <CON1_RANDOM><FILE>C:\Users\Felix\Projects\TSEA77\labb4\testing2.asm</FILE><LINE>65</LINE></CON1_RANDOM>
+  <CON2_RANDOM><FILE>C:\Users\Felix\Projects\TSEA77\labb4\testing2.asm</FILE><LINE>75</LINE></CON2_RANDOM>
+  <RANDOM><FILE>C:\Users\Felix\Projects\TSEA77\labb4\testing2.asm</FILE><LINE>81</LINE></RANDOM>
+>>>>>>> 65b3a4e76b892e88c186208fa5271e3d97bc1af0
  </LABELS>
 </ASSEMBLER_INFO>

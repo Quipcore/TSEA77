@@ -24,7 +24,6 @@ LINE:	.byte	1	; Current line
 VMEM:	.byte	VMEM_SZ ; Video MEMory
 SEED:	.byte	1	; Seed for Random
 MUXPOS: .byte   1
-
 	
 	; ---------------------------------------
 	; --- Macros for inc/dec-rementing
@@ -37,16 +36,24 @@ MUXPOS: .byte   1
 	.endmacro
 
 	.macro DECSRAM	; dec byte in SRAM
-		lds	r16,@0
-		dec	r16
-		sts	@0,r16
+	lds	r16,@0
+	dec	r16
+	sts	@0,r16
 	.endmacro
+
 	.cseg
+	.org 	$0
+	jmp		START
+	//.org	INT0addr
+	//jmp		MUX
+
 START:
 	ldi     r16,HIGH(RAMEND)
 	out     SPH,r16
 	ldi     r16,LOW(RAMEND)
-	out     SPL,r16		
+	out     SPL,r16	
+	
+	call	HW_INIT	
  main:
 	call MUX
 	call MUX
@@ -92,4 +99,3 @@ END_MUX:
 	pop		r16
 	out		SREG,r16
 	pop		r16
-	ret
