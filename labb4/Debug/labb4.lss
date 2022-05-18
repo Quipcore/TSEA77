@@ -1,9 +1,5 @@
 
-<<<<<<< HEAD
-AVRASM ver. 2.2.8  D:\Code repositories\Skola\TSEA77\labb4\testing.asm Tue May 17 14:59:26 2022
-=======
-AVRASM ver. 2.2.8  C:\Users\Felix\Projects\TSEA77\labb4\testing2.asm Sun May 15 15:33:31 2022
->>>>>>> 65b3a4e76b892e88c186208fa5271e3d97bc1af0
+AVRASM ver. 2.2.8  C:\Users\Felix\Projects\TSEA77\labb4\testing.asm Wed May 18 16:35:46 2022
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\avrasm\inc\m16Adef.inc'
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\avrasm\inc\m16Adef.inc'
@@ -874,21 +870,12 @@ AVRASM ver. 2.2.8  C:\Users\Felix\Projects\TSEA77\labb4\testing2.asm Sun May 15 
                                  #endif  /* _M16ADEF_INC_ */
                                  
                                  
-<<<<<<< HEAD
                                   * testing.asm
                                   *
                                   *  Created: 2022-05-13 09:58:46
                                   *   Author: felix
                                   */ 
                                   	.equ	VMEM_SZ     = 5		; #rows on display
-=======
-                                  * testing2.asm
-                                  *
-                                  *  Created: 2022-05-15 15:19:51
-                                  *   Author: Felix
-                                  */ 
-                                   	.equ	VMEM_SZ     = 5		; #rows on display
->>>>>>> 65b3a4e76b892e88c186208fa5271e3d97bc1af0
                                  	.equ	AD_CHAN_X   = 0		; ADC0=PA0, PORTA bit 0 X-led
                                  	.equ	AD_CHAN_Y   = 1		; ADC1=PA1, PORTA bit 1 Y-led
                                  	.equ	GAME_SPEED  = 70	; inter-run delay (millisecs)
@@ -908,8 +895,6 @@ AVRASM ver. 2.2.8  C:\Users\Felix\Projects\TSEA77\labb4\testing2.asm Sun May 15 
 000065                           VMEM:	.byte	VMEM_SZ ; Video MEMory
 00006a                           SEED:	.byte	1	; Seed for Random
 00006b                           MUXPOS: .byte   1
-                                 
-<<<<<<< HEAD
                                  	
                                  	; ---------------------------------------
                                  	; --- Macros for inc/dec-rementing
@@ -922,135 +907,47 @@ AVRASM ver. 2.2.8  C:\Users\Felix\Projects\TSEA77\labb4\testing2.asm Sun May 15 
                                  	.endmacro
                                  
                                  	.macro DECSRAM	; dec byte in SRAM
-                                 		lds	r16,@0
-                                 		dec	r16
-                                 		sts	@0,r16
+                                 	lds	r16,@0
+                                 	dec	r16
+                                 	sts	@0,r16
                                  	.endmacro
-                                 	.cseg
-                                 START:
-000000 e004                      	ldi     r16,HIGH(RAMEND)
-000001 bf0e                      	out     SPH,r16
-000002 e50f                      	ldi     r16,LOW(RAMEND)
-000003 bf0d                      	out     SPL,r16		
-                                  main:
-000004 940e 0010                 	call MUX
-000006 940e 0010                 	call MUX
-000008 940e 0010                 	call MUX
-00000a 940e 0010                 	call MUX
-00000c 940e 0010                 	call MUX
-00000e 940c 0004                 	jmp main
                                  
-                                 MUX:		
-000010 930f                      	push	r16
-000011 b70f                      	in		r16,SREG
-000012 930f                      	push	r16
-000013 931f                      	push	r17
-000014 93bf                      	push	XH
-000015 93af                      	push	XL
-                                 
-000016 e0b0                      	ldi		XH,HIGH(VMEM)
-000017 e6a5                      	ldi		XL,LOW(VMEM)
-                                 
-000018 9100 0064                 	lds		r16,LINE
-00001a 0fa0                      	add		XL,r16
-00001b e000                      	ldi		r16,0
-00001c 1fb0                      	adc		XH,r16
-                                 
-00001d 910c                      	ld		r16,X
-00001e bb08                      	out		PORTB,r16
-00001f 9100 0064                 	lds		r16,LINE
-                                 	//swap	r16
-000021 bb02                      	out		PORTD,r16
-                                 
-000022 9100 006a
-000024 9503
-000025 9300 006a                 	INCSRAM SEED
-000027 9100 0064
-000029 9503
-00002a 9300 0064                 	INCSRAM LINE
-                                 
-00002c 3005                      	cpi		r16,VMEM_SZ
-00002d f419                      	brne	END_MUX
-00002e e000                      	ldi		r16,0
-00002f 9300 0064                 	sts		LINE,r16
-                                 
-                                 END_MUX:
-000031 91af                      	pop		XL
-000032 91bf                      	pop		XH
-000033 911f                      	pop		r17
-000034 910f                      	pop		r16
-000035 bf0f                      	out		SREG,r16
-000036 910f                      	pop		r16
-=======
                                  	.cseg
                                  	.org 	$0
-000000 940c 0004                 	jmp		START
-                                 	.org	INT0addr
-000002 940c 0014                 	jmp		MUX
+000000 940c 0002                 	jmp		START
+                                 	//.org	INT0addr
+                                 	//jmp		MUX
                                  
                                  START:
-000004 e004                      	ldi     r16,HIGH(RAMEND)
-000005 bf0e                      	out     SPH,r16
-000006 e50f                      	ldi     r16,LOW(RAMEND)
-000007 bf0d                      	out     SPL,r16	
+000002 e004                      	ldi     r16,HIGH(RAMEND)
+000003 bf0e                      	out     SPH,r16
+000004 e50f                      	ldi     r16,LOW(RAMEND)
+000005 bf0d                      	out     SPL,r16	
                                  	
-000008 940e 002a                 	call	HW_INIT	
                                   main:
-00000a 940e 000e                 	call TEST_METHOD
-00000c 940c 000a                 	jmp main
+000006 920f                      	push	r0
+000007 920f                      	push	r0
                                  
-                                 TEST_METHOD:
-00000e 9100 006a                 	lds		r16,SEED
-000010 5f0f                      	subi	r16,-1
-000011 9300 006a                 	sts		SEED,r16
-000013 9508                      	ret
-                                 
-                                 MUX:
-000014 b70e                      	in		r16,SPH
-000015 2ff0                      	mov		ZH,r16
-000016 b70d                      	in		r16,SPL
-000017 2fe0                      	mov		ZL,r16
-000018 9100 006a                 	lds		r16,SEED
-                                 
-00001a 2f10                      	mov		r17,r16
-                                 
-00001b 7007                      	andi	r16,0b00000111
-00001c 3004                      	cpi		r16,4
-00001d f00a                      	brmi	CON1_RANDOM
-00001e 5004                      	subi	r16,4
-                                 
-                                 CON1_RANDOM:
+000008 940e 000e                 	call	RANDOM		; RANDOM returns x,y on stack
                                  	
-00001f 7318                      	andi	r17,0b00111000
-000020 9516                      	lsr		r17
-000021 9516                      	lsr		r17
-000022 9516                      	lsr		r17
-000023 3014                      	cpi		r17,4
-000024 f00a                      	brmi	CON2_RANDOM
-000025 5014                      	subi	r17,4
+00000a 910f                      	pop		r16 ; x
+00000b 911f                      	pop		r17 ; y
                                  
-                                 CON2_RANDOM:
-000026 bb18                      	out		PORTB,r17 ; y
-000027 bb0b                      	out		PORTA,r16 ; x
-000028 9518                      	reti
+00000c 940c 0006                 	jmp main
+                                 RANDOM: ; Last subroutine
+00000e 900f                      	pop		r0
+00000f 900f                      	pop		r0
+                                 
+000010 b70e                      	in		r16,SPH
+000011 2ff0                      	mov		ZH,r16
+000012 b70d                      	in		r16,SPL
+000013 2fe0                      	mov		ZL,r16
                                  
                                  
-                                 RANDOM:
-                                 	
-000029 9508                      	ret
+000014 0000                      	nop
+000015 0000                      	nop
                                  
-                                 HW_INIT:
-00002a e00a                      	ldi     r16,(1<<ISC01) | (0<<ISC00) | (1<<ISC11) | (0<<ISC10)
-00002b bf05                      	out     MCUCR,r16; Activate
-00002c e400                      	ldi     r16,(1<<INT0) | (0<<INT1)
-00002d bf0b                      	out     GICR,r16; Enable Interrupts Globally
-                                 
-00002e ef0f                      	ldi		r16,$FF
-00002f bb0a                      	out		DDRA,r16
-000030 bb07                      	out		DDRB,r16
-                                 	
-000031 9478                      	sei
->>>>>>> 65b3a4e76b892e88c186208fa5271e3d97bc1af0
+000016 931f                      	push	r17 ; y
 
 
 RESOURCE USE INFORMATION
@@ -1068,73 +965,39 @@ counted separately from r26..r31 here.
 .dseg memory usage only counts static data declared with .byte
 
 "ATmega16A" register use summary:
-<<<<<<< HEAD
-x  :   1 y  :   0 z  :   0 r0 :   0 r1 :   0 r2 :   0 r3 :   0 r4 :   0 
+x  :   0 y  :   0 z  :   0 r0 :   4 r1 :   0 r2 :   0 r3 :   0 r4 :   0 
 r5 :   0 r6 :   0 r7 :   0 r8 :   0 r9 :   0 r10:   0 r11:   0 r12:   0 
-r13:   0 r14:   0 r15:   0 r16:  27 r17:   2 r18:   0 r19:   0 r20:   0 
-r21:   0 r22:   0 r23:   0 r24:   0 r25:   0 r26:   4 r27:   4 r28:   0 
-r29:   0 r30:   0 r31:   0 
+r13:   0 r14:   0 r15:   0 r16:  10 r17:   2 r18:   0 r19:   0 r20:   0 
+r21:   0 r22:   0 r23:   0 r24:   0 r25:   0 r26:   0 r27:   0 r28:   0 
+r29:   0 r30:   1 r31:   1 
 Registers used: 5 out of 35 (14.3%)
 
 "ATmega16A" instruction use summary:
-.lds  :   0 .sts  :   0 adc   :   1 add   :   1 adiw  :   0 and   :   0 
+.lds  :   0 .sts  :   0 adc   :   0 add   :   0 adiw  :   0 and   :   0 
 andi  :   0 asr   :   0 bclr  :   0 bld   :   0 brbc  :   0 brbs  :   0 
 brcc  :   0 brcs  :   0 break :   0 breq  :   0 brge  :   0 brhc  :   0 
 brhs  :   0 brid  :   0 brie  :   0 brlo  :   0 brlt  :   0 brmi  :   0 
-brne  :   1 brpl  :   0 brsh  :   0 brtc  :   0 brts  :   0 brvc  :   0 
-brvs  :   0 bset  :   0 bst   :   0 call  :   5 cbi   :   0 cbr   :   0 
+brne  :   0 brpl  :   0 brsh  :   0 brtc  :   0 brts  :   0 brvc  :   0 
+brvs  :   0 bset  :   0 bst   :   0 call  :   1 cbi   :   0 cbr   :   0 
 clc   :   0 clh   :   0 cli   :   0 cln   :   0 clr   :   0 cls   :   0 
 clt   :   0 clv   :   0 clz   :   0 com   :   0 cp    :   0 cpc   :   0 
-cpi   :   1 cpse  :   0 dec   :   0 eor   :   0 fmul  :   0 fmuls :   0 
-fmulsu:   0 icall :   0 ijmp  :   0 in    :   1 inc   :   2 jmp   :   1 
-ld    :   1 ldd   :   0 ldi   :   6 lds   :   4 lpm   :   0 lsl   :   0 
-lsr   :   0 mov   :   0 movw  :   0 mul   :   0 muls  :   0 mulsu :   0 
-neg   :   0 nop   :   0 or    :   0 ori   :   0 out   :   5 pop   :   5 
-push  :   5 rcall :   0 ret   :   1 reti  :   0 rjmp  :   0 rol   :   0 
+cpi   :   0 cpse  :   0 dec   :   0 eor   :   0 fmul  :   0 fmuls :   0 
+fmulsu:   0 icall :   0 ijmp  :   0 in    :   2 inc   :   0 jmp   :   2 
+ld    :   0 ldd   :   0 ldi   :   2 lds   :   0 lpm   :   0 lsl   :   0 
+lsr   :   0 mov   :   2 movw  :   0 mul   :   0 muls  :   0 mulsu :   0 
+neg   :   0 nop   :   2 or    :   0 ori   :   0 out   :   2 pop   :   4 
+push  :   4 rcall :   0 ret   :   0 reti  :   0 rjmp  :   0 rol   :   0 
 ror   :   0 sbc   :   0 sbci  :   0 sbi   :   0 sbic  :   0 sbis  :   0 
 sbiw  :   0 sbr   :   0 sbrc  :   0 sbrs  :   0 sec   :   0 seh   :   0 
 sei   :   0 sen   :   0 ser   :   0 ses   :   0 set   :   0 sev   :   0 
-sez   :   0 sleep :   0 spm   :   0 st    :   0 std   :   0 sts   :   3 
+sez   :   0 sleep :   0 spm   :   0 st    :   0 std   :   0 sts   :   0 
 sub   :   0 subi  :   0 swap  :   0 tst   :   0 wdr   :   0 
-=======
-x  :   0 y  :   0 z  :   0 r0 :   0 r1 :   0 r2 :   0 r3 :   0 r4 :   0 
-r5 :   0 r6 :   0 r7 :   0 r8 :   0 r9 :   0 r10:   0 r11:   0 r12:   0 
-r13:   0 r14:   0 r15:   0 r16:  24 r17:   8 r18:   0 r19:   0 r20:   0 
-r21:   0 r22:   0 r23:   0 r24:   0 r25:   0 r26:   0 r27:   0 r28:   0 
-r29:   0 r30:   1 r31:   1 
-Registers used: 4 out of 35 (11.4%)
-
-"ATmega16A" instruction use summary:
-.lds  :   0 .sts  :   0 adc   :   0 add   :   0 adiw  :   0 and   :   0 
-andi  :   2 asr   :   0 bclr  :   0 bld   :   0 brbc  :   0 brbs  :   0 
-brcc  :   0 brcs  :   0 break :   0 breq  :   0 brge  :   0 brhc  :   0 
-brhs  :   0 brid  :   0 brie  :   0 brlo  :   0 brlt  :   0 brmi  :   2 
-brne  :   0 brpl  :   0 brsh  :   0 brtc  :   0 brts  :   0 brvc  :   0 
-brvs  :   0 bset  :   0 bst   :   0 call  :   2 cbi   :   0 cbr   :   0 
-clc   :   0 clh   :   0 cli   :   0 cln   :   0 clr   :   0 cls   :   0 
-clt   :   0 clv   :   0 clz   :   0 com   :   0 cp    :   0 cpc   :   0 
-cpi   :   2 cpse  :   0 dec   :   0 eor   :   0 fmul  :   0 fmuls :   0 
-fmulsu:   0 icall :   0 ijmp  :   0 in    :   2 inc   :   0 jmp   :   3 
-ld    :   0 ldd   :   0 ldi   :   5 lds   :   2 lpm   :   0 lsl   :   0 
-lsr   :   3 mov   :   3 movw  :   0 mul   :   0 muls  :   0 mulsu :   0 
-neg   :   0 nop   :   0 or    :   0 ori   :   0 out   :   8 pop   :   0 
-push  :   0 rcall :   0 ret   :   3 reti  :   1 rjmp  :   0 rol   :   0 
-ror   :   0 sbc   :   0 sbci  :   0 sbi   :   0 sbic  :   0 sbis  :   0 
-sbiw  :   0 sbr   :   0 sbrc  :   0 sbrs  :   0 sec   :   0 seh   :   0 
-sei   :   1 sen   :   0 ser   :   0 ses   :   0 set   :   0 sev   :   0 
-sez   :   0 sleep :   0 spm   :   0 st    :   0 std   :   0 sts   :   1 
-sub   :   0 subi  :   3 swap  :   0 tst   :   0 wdr   :   0 
->>>>>>> 65b3a4e76b892e88c186208fa5271e3d97bc1af0
-Instructions used: 16 out of 113 (14.2%)
+Instructions used: 9 out of 113 (8.0%)
 
 "ATmega16A" memory use summary [bytes]:
 Segment   Begin    End      Code   Data   Used    Size   Use%
 ---------------------------------------------------------------
-<<<<<<< HEAD
-[.cseg] 0x000000 0x000070    112      0    112   16384   0.7%
-=======
-[.cseg] 0x000000 0x000066    102      0    102   16384   0.6%
->>>>>>> 65b3a4e76b892e88c186208fa5271e3d97bc1af0
+[.cseg] 0x000000 0x000030     48      0     48   16384   0.3%
 [.dseg] 0x000060 0x00006c      0     12     12    1024   1.2%
 [.eseg] 0x000000 0x000000      0      0      0     512   0.0%
 

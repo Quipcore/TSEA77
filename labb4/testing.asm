@@ -53,49 +53,28 @@ START:
 	ldi     r16,LOW(RAMEND)
 	out     SPL,r16	
 	
-	call	HW_INIT	
  main:
-	call MUX
-	call MUX
-	call MUX
-	call MUX
-	call MUX
+	push	r0
+	push	r0
+
+	call	RANDOM		; RANDOM returns x,y on stack
+	
+	pop		r16 ; x
+	pop		r17 ; y
+
 	jmp main
+RANDOM: ; Last subroutine
+	pop		r0
+	pop		r0
 
-MUX:		
-	push	r16
-	in		r16,SREG
-	push	r16
-	push	r17
-	push	XH
-	push	XL
+	in		r16,SPH
+	mov		ZH,r16
+	in		r16,SPL
+	mov		ZL,r16
 
-	ldi		XH,HIGH(VMEM)
-	ldi		XL,LOW(VMEM)
 
-	lds		r16,LINE
-	add		XL,r16
-	ldi		r16,0
-	adc		XH,r16
+	nop
+	nop
 
-	ld		r16,X
-	out		PORTB,r16
-	lds		r16,LINE
-	//swap	r16
-	out		PORTD,r16
-
-	INCSRAM SEED
-	INCSRAM LINE
-
-	cpi		r16,VMEM_SZ
-	brne	END_MUX
-	ldi		r16,0
-	sts		LINE,r16
-
-END_MUX:
-	pop		XL
-	pop		XH
-	pop		r17
-	pop		r16
-	out		SREG,r16
-	pop		r16
+	push	r17 ; y
+	push	r16 ; x

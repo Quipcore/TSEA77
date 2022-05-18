@@ -7,6 +7,7 @@
 	.equ	PRESCALE    = 7		; AD-prescaler value
 	.equ	BEEP_PITCH  = 20	; Victory beep pitch
 	.equ	BEEP_LENGTH = 100	; Victory beep length
+	.equ	FREQ = 300
 	
 	; ---------------------------------------
 	; --- Memory layout in SRAM
@@ -57,8 +58,8 @@ START:
 	ldi     r16,LOW(RAMEND)
 	out     SPL,r16			
 
-	rcall	HW_INIT	
-	rcall	WARM
+	call	HW_INIT	
+	call	WARM
 RUN:
 	call	JOYSTICK
 	call	ERASE_VMEM
@@ -79,6 +80,10 @@ RUN:
 	brne	NO_HIT	
 	ldi		r16,BEEP_LENGTH
 	call	BEEP
+	call	DELAY
+	call	DELAY
+	call	DELAY
+
 	call	WARM
 NO_HIT:
 	jmp		RUN
@@ -102,7 +107,7 @@ HW_INIT:
 	ldi		r16,$F0
 	out		DDRD,r16
 
-	ldi		r16,0
+	ldi		r16,0b1111100
 	out		DDRA,r16
 	sei
 
@@ -120,13 +125,17 @@ WARM:
 	sts		POSX,r16
 	ldi		r16,2
 	sts		POSY,r16	
-		
-	push	r0		
-	push	r0		
-	rcall	RANDOM		; RANDOM returns x,y on stack
+	
+	push	r0
+	push	r0
+	call	RANDOM		; RANDOM returns x,y on stack
+	
 	pop		r16 ; x
 	pop		r17 ; y
-	
+	/*
+	ldi		r16,3
+	ldi		r17,3
+	*/
 	sts		TPOSX,r16
 	sts		TPOSY,r17
 
@@ -147,12 +156,14 @@ WARM:
 	; ---	pop TPOSY
 	; --- Uses r16
 	; ---------------------------------------
-RANDOM:
-
+RANDOM: ; Last subroutine
+	//pop		r0
+	//pop		r0
 	in		r16,SPH
 	mov		ZH,r16
 	in		r16,SPL
 	mov		ZL,r16
+	
 	lds		r16,SEED
 
 	mov		r17,r16
@@ -160,7 +171,7 @@ RANDOM:
 	andi	r16,0b00000111
 	cpi		r16,4
 	brmi	CON1_RANDOM
-	subi	r16,4
+	subi	r16,1
 
 CON1_RANDOM:
 	
@@ -216,7 +227,6 @@ JOYSTICK:
 	push	r17
 
 	ldi		r16,0 ;PORTA0,x
-	push	r16
 	call	ADC10
 
 	cpi		r16,0b11
@@ -228,11 +238,10 @@ JOYSTICK:
 DECREASE_X:
 	cpi		r16,0b00
 	brne	CHANGE_Y_POS
-	DECSRAM POSY
+	DECSRAM POSX
 
 CHANGE_Y_POS:
 	ldi		r16,1 ; PORTA1,y
-	push	r16
 	call	ADC10
 
 	cpi		r16,0b11
@@ -257,7 +266,6 @@ JOY_LIM:
 	; --- Push r16 before using
 	; -------------------------------------------------------------
 ADC10:
-	pop		r16
 	out		ADMUX,r16
 	ldi		r16,(1<<ADEN) ; A/D enable, ADPSx=111
 	ori		r16,(1<<ADPS2)|(1<<ADPS1)|(1<<ADPS0)
@@ -270,8 +278,8 @@ ADC10_WAIT:
 	in		r16,ADCSRA
 	sbrc	r16,ADSC ; om 0-ställd, klar
 	rjmp	ADC10_WAIT ; annars vänta
-	in		r16,ADCL ; obs, läs låg byte först
-	in		r17,ADCH ; hög byte sedan
+	//in		r16,ADCL ; obs, läs låg byte först
+	in		r16,ADCH ; hög byte sedan
 	ret
 
 	; ---------------------------------------
@@ -346,55 +354,43 @@ SETBIT_END:
 	; -------------------------------------------
 	; --- BEEP(r16) r16 half cycles of BEEP-PITCH
 	; -------------------------------------------
-BEEP:
-
-	push		r19
-	push		r24
-	push		r25
-
-	ldi			r19,$1
-	out			PORTB,r19
-	ldi			r19,BEEP_LENGTH
+BEEP: ;return void
+	;	r19  - temp storage 
+	ldi			r19,$20
 	call		BEEP_LOOP	
-
-	pop			r25
-	pop			r24
-	pop			r19
 	ret
 	
 	BEEP_LOOP:
-		sbi PORTB, $0
+		sbi PORTA, 0b100
 		call WAIT
-		cbi PORTB, $0
+		cbi PORTA, 0b100
 		call WAIT
 		dec r19
 		brne BEEP_LOOP
-	ret
+		ret
 
-	WAIT:
-		ldi r25, HIGH(BEEP_PITCH)
-		ldi r24, LOW(BEEP_PITCH)
-		WAIT_LOOP:
-			sbiw r24, 1
-			brne WAIT_LOOP
+WAIT:
+	ldi r25, HIGH(FREQ)
+	ldi r24, LOW(FREQ)
+	WAIT_LOOP:
+		sbiw r24, 1
+		brne WAIT_LOOP
 		ret
 
 	; --------------------------------------------------
 	; --- DELAY
 	; --------------------------------------------------
 DELAY:
-	push	r24
-	push	r25
+
+	ldi			r24,$FF
+	ldi			r25,$FF
+	subi		r24,LOW(GAME_SPEED*4000)-1 ; see notes for more info
+	subi		r25,HIGH(GAME_SPEED*4000)
+
+	LOOP_DELAY:
+	adiw		r24,1
+	brne		LOOP_DELAY
 	
-	ldi		r24,LOW(GAME_SPEED)
-	ldi		r25,HIGH(GAME_SPEED)
-
-DELAY_LOOP:
-	sbiw	r24,1
-	brne	DELAY_LOOP
-
-	pop		r25
-	pop		r24
 	ret
 
 	; ---------------------------------------
@@ -419,7 +415,7 @@ MUX:
 	ld		r16,X
 	out		PORTB,r16
 	lds		r16,LINE
-	//swap	r16
+	swap	r16
 	out		PORTD,r16
 
 	INCSRAM SEED
