@@ -1,8 +1,8 @@
 
-AVRASM ver. 2.2.8  C:\Users\Felix\Projects\TSEA77\labb2\main.asm Mon May 09 15:48:00 2022
+AVRASM ver. 2.2.8  D:\Code repositories\Skola\TSEA77\labb2\main.asm Thu May 19 12:35:14 2022
 
-[builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\avrasm\inc\m16Adef.inc'
-[builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\avrasm\inc\m16Adef.inc'
+[builtin](2): Including file 'D:/Programs\Microchip Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\avrasm\inc\m16Adef.inc'
+[builtin](2): Including file 'D:/Programs\Microchip Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\avrasm\inc\m16Adef.inc'
                                  
                                   ;
                                  
@@ -877,6 +877,8 @@ AVRASM ver. 2.2.8  C:\Users\Felix\Projects\TSEA77\labb2\main.asm Mon May 09 15:4
                                  ;
                                  
                                  SETUP:
+                                 	.equ		FREQ = 300
+                                 
 000000 e004                      	ldi			r16,HIGH(RAMEND)
 000001 bf0e                      	out			SPH,r16
 000002 e50f                      	ldi			r16,LOW(RAMEND)
@@ -887,7 +889,7 @@ AVRASM ver. 2.2.8  C:\Users\Felix\Projects\TSEA77\labb2\main.asm Mon May 09 15:4
                                  
 000006 e000                      	ldi			r16,0
                                  
-000007 e053                      	ldi			r21, MESSAGE_END*2-MESSAGE*2-1 ; Length of message, take -1 if message length % 2 = 0
+000007 e057                      	ldi			r21, MESSAGE_END*2-MESSAGE*2-1 ; Length of message, take -1 if message length % 2 = 0
                                  												; NOT multiplying by 2 might fix problem
                                  		;---------------------------------------------------------------------
                                  
@@ -909,30 +911,34 @@ AVRASM ver. 2.2.8  C:\Users\Felix\Projects\TSEA77\labb2\main.asm Mon May 09 15:4
                                  
 00000e 9104                      	lpm			r16,Z
                                  
-00000f 5401                      	subi		r16,$41
-000010 3109                      	cpi			r16,BTAB_END*2-BTAB*2-1
-000011 f022                      	brmi		CONTINUE ;if r16 is not a char in BTAB nobeep 7x and jump to bottom of loop
-                                 						 ; super ugly approach, needs refactoring
-000012 940e 0047                 	call		NOBEEP_FIVE
-000014 940c 001a                 	jmp			MINMIN
+00000f 3200                      	cpi			r16,$20
+000010 f0a1                      	breq		SPACE
                                  
-                                 CONTINUE:
-000016 940e 0029                 	call		LOOKUP
-000018 940e 0030                 	call		SEND
+000011 5401                      	subi		r16,$41
+                                 
+000012 940e 002d                 	call		LOOKUP
+000014 940e 0034                 	call		SEND
+                                 
+000016 940e 0055                 	call		NOBEEP
+000018 940e 0055                 	call		NOBEEP
+                                 
                                  
                                  MINMIN:
-00001a 940e 0042                 	call		NOBEEP
-00001c 940e 0042                 	call		NOBEEP
+00001a 954a                      	dec			r20
+00001b f769                      	brne		LOOP_MORSE
                                  
-00001e 954a                      	dec			r20
-00001f f749                      	brne		LOOP_MORSE
+00001c 940e 005a                 	call		NOBEEP_FIVE
+00001e 940e 0055                 	call		NOBEEP
+000020 940e 0055                 	call		NOBEEP
+000022 940e 005a                 	call		NOBEEP_FIVE
                                  
-000020 940e 0047                 	call		NOBEEP_FIVE
-000022 940e 0042                 	call		NOBEEP
-000024 940e 0042                 	call		NOBEEP
-000026 940e 0047                 	call		NOBEEP_FIVE
+000024 cfe3                      	rjmp		MORSE
                                  
-000028 cfdf                      	rjmp		MORSE
+                                 SPACE:
+000025 940e 005a                 	call		NOBEEP_FIVE
+000027 940e 0055                 	call		NOBEEP
+000029 940e 0055                 	call		NOBEEP
+00002b 940c 001a                 	jmp			MINMIN
                                  
                                  	;---------------------------------------------------------------------
                                  
@@ -941,15 +947,15 @@ AVRASM ver. 2.2.8  C:\Users\Felix\Projects\TSEA77\labb2\main.asm Mon May 09 15:4
                                  	;	r16 - input and return value
                                  	;	r18 - temp storage
                                  
-000029 e0f2                      	ldi			ZH, HIGH(BTAB*2)
-00002a e0e0                      	ldi			ZL, LOW(BTAB*2)
+00002d e0f2                      	ldi			ZH, HIGH(BTAB*2)
+00002e e0e0                      	ldi			ZL, LOW(BTAB*2)
                                  
-00002b 0fe0                      	add			ZL,r16
-00002c e020                      	ldi			r18,0
-00002d 1ff2                      	adc			ZH,r18
+00002f 0fe0                      	add			ZL,r16
+000030 e020                      	ldi			r18,0
+000031 1ff2                      	adc			ZH,r18
                                  
-00002e 9104                      	lpm			r16,Z
-00002f 9508                      	ret
+000032 9104                      	lpm			r16,Z
+000033 9508                      	ret
                                  
                                  	;---------------------------------------------------------------------
                                  
@@ -957,47 +963,64 @@ AVRASM ver. 2.2.8  C:\Users\Felix\Projects\TSEA77\labb2\main.asm Mon May 09 15:4
                                  	;	r16 - input value
                                  	
                                  LOOP_SEND:
-000030 0f00                      	lsl			r16
+000034 0f00                      	lsl			r16
                                  
-000031 f420                      	brcc		BEEP_ONCE
-000032 940e 003d                 	call		beep
-000034 940e 003d                 	call		beep
+000035 f420                      	brcc		BEEP_ONCE
+000036 940e 0041                 	call		beep
+000038 940e 0041                 	call		beep
                                  BEEP_ONCE:
-000036 940e 003d                 	call		beep
-000038 940e 0042                 	call		NOBEEP
+00003a 940e 0041                 	call		beep
+00003c 940e 0055                 	call		NOBEEP
                                  
-00003a 3800                      	cpi			r16,$80
-00003b f7a1                      	brne		LOOP_SEND
-00003c 9508                      	ret
+00003e 3800                      	cpi			r16,$80
+00003f f7a1                      	brne		LOOP_SEND
+000040 9508                      	ret
                                  
                                  	;---------------------------------------------------------------------
                                  
                                  BEEP: ;return void
                                  	;	r19  - temp storage 
-00003d e031                      	ldi			r19,$1
-00003e bb38                      	out			PORTB,r19
-00003f 940e 0052                 	call		DElAY	
-000041 9508                      	ret
+000041 e031                      	ldi			r19,$1
+000042 bb38                      	out			PORTB,r19
+000043 e230                      	ldi			r19,$20
+000044 940e 0047                 	call		BEEP_LOOP	
+000046 9508                      	ret
+                                 	
+                                 	BEEP_LOOP:
+000047 9ac0                      		sbi PORTB, $0
+000048 940e 0050                 		call WAIT
+00004a 98c0                      		cbi PORTB, $0
+00004b 940e 0050                 		call WAIT
+00004d 953a                      		dec r19
+00004e f7c1                      		brne BEEP_LOOP
+00004f 9508                      		ret
                                  
+                                 WAIT:
+000050 e091                      	ldi r25, HIGH(FREQ)
+000051 e28c                      	ldi r24, LOW(FREQ)
+                                 	WAIT_LOOP:
+000052 9701                      		sbiw r24, 1
+000053 f7f1                      		brne WAIT_LOOP
+000054 9508                      		ret
                                  	;---------------------------------------------------------------------
                                  
                                  NOBEEP: ;return void
                                  	;	r19  - temp storage
-000042 e032                      	ldi			r19,$2 ; 0d10, need the first and only 1 for debug purposes
-000043 bb38                      	out			PORTB,r19
-000044 940e 0052                 	call		DELAY
-000046 9508                      	ret
+000055 e030                      	ldi			r19,$0 ; 0d10, need the first and only 1 for debug purposes
+000056 bb38                      	out			PORTB,r19
+000057 940e 0065                 	call		DELAY
+000059 9508                      	ret
                                  
                                  	;---------------------------------------------------------------------
                                  
                                  NOBEEP_FIVE: ; return void
-000047 940e 0042                 	call		NOBEEP
-000049 940e 0042                 	call		NOBEEP
-00004b 940e 0042                 	call		NOBEEP
-00004d 940e 0042                 	call		NOBEEP
-00004f 940e 0042                 	call		NOBEEP
+00005a 940e 0055                 	call		NOBEEP
+00005c 940e 0055                 	call		NOBEEP
+00005e 940e 0055                 	call		NOBEEP
+000060 940e 0055                 	call		NOBEEP
+000062 940e 0055                 	call		NOBEEP
                                  
-000051 9508                      	ret
+000064 9508                      	ret
                                  
                                  	;---------------------------------------------------------------------
                                  
@@ -1006,15 +1029,15 @@ AVRASM ver. 2.2.8  C:\Users\Felix\Projects\TSEA77\labb2\main.asm Mon May 09 15:4
                                  DELAY: ; return void
                                  	;	r24 - LOW in r24:r25 16-bit pair
                                  	;	r25 - HIGH in r24:r25 16-bit pair
-000052 ef8f                      	ldi			r24,$FF
-000053 ef9f                      	ldi			r25,$FF
-000054 538f                      	subi		r24,LOW(SIGNAL_TIME*4000)-1 ; see notes for more info
-000055 599c                      	subi		r25,HIGH(SIGNAL_TIME*4000)
+000065 ef8f                      	ldi			r24,$FF
+000066 ef9f                      	ldi			r25,$FF
+000067 538f                      	subi		r24,LOW(SIGNAL_TIME*4000)-1 ; see notes for more info
+000068 599c                      	subi		r25,HIGH(SIGNAL_TIME*4000)
                                  
-                                 LOOP_DELAY:
-000056 9601                      	adiw		r24,1
-000057 f7f1                      	brne		LOOP_DELAY
-000058 9508                      	ret
+                                 	LOOP_DELAY:
+000069 9601                      	adiw		r24,1
+00006a f7f1                      	brne		LOOP_DELAY
+00006b 9508                      	ret
                                  	
                                  
                                  	;---------------------------------------------------------------------
@@ -1043,11 +1066,14 @@ AVRASM ver. 2.2.8  C:\Users\Felix\Projects\TSEA77\labb2\main.asm Mon May 09 15:4
                                  
                                  	.org $125 ; Sets MESSAGE and MESSAGE_END at adress $125
                                  MESSAGE:
-000125 2048
-000126 0045                      	.db		"H E", $00 ; if message_length % 2 = 0, dont pad with zero
+000125 4f53
+000126 2053
+000127 4f53
+000128 0053                      	.db		"SOS SOS", $00 ; if message_length % 2 = 0, dont pad with zero
                                  
                                  MESSAGE_END:
-000127 4e45
+000129 4e45
+00012a 0044                      	.db		"END",$00
 
 
 RESOURCE USE INFORMATION
@@ -1067,37 +1093,37 @@ counted separately from r26..r31 here.
 "ATmega16A" register use summary:
 x  :   0 y  :   0 z  :   2 r0 :   0 r1 :   0 r2 :   0 r3 :   0 r4 :   0 
 r5 :   0 r6 :   0 r7 :   0 r8 :   0 r9 :   0 r10:   0 r11:   0 r12:   0 
-r13:   0 r14:   0 r15:   0 r16:  14 r17:   3 r18:   2 r19:   4 r20:   3 
-r21:   3 r22:   0 r23:   0 r24:   3 r25:   2 r26:   0 r27:   0 r28:   0 
+r13:   0 r14:   0 r15:   0 r16:  14 r17:   3 r18:   2 r19:   6 r20:   3 
+r21:   3 r22:   0 r23:   0 r24:   5 r25:   3 r26:   0 r27:   0 r28:   0 
 r29:   0 r30:   4 r31:   3 
 Registers used: 11 out of 35 (31.4%)
 
 "ATmega16A" instruction use summary:
 .lds  :   0 .sts  :   0 adc   :   1 add   :   2 adiw  :   1 and   :   0 
 andi  :   0 asr   :   0 bclr  :   0 bld   :   0 brbc  :   0 brbs  :   0 
-brcc  :   1 brcs  :   0 break :   0 breq  :   0 brge  :   0 brhc  :   0 
-brhs  :   0 brid  :   0 brie  :   0 brlo  :   0 brlt  :   0 brmi  :   1 
-brne  :   3 brpl  :   0 brsh  :   0 brtc  :   0 brts  :   0 brvc  :   0 
-brvs  :   0 bset  :   0 bst   :   0 call  :  20 cbi   :   0 cbr   :   0 
+brcc  :   1 brcs  :   0 break :   0 breq  :   1 brge  :   0 brhc  :   0 
+brhs  :   0 brid  :   0 brie  :   0 brlo  :   0 brlt  :   0 brmi  :   0 
+brne  :   5 brpl  :   0 brsh  :   0 brtc  :   0 brts  :   0 brvc  :   0 
+brvs  :   0 bset  :   0 bst   :   0 call  :  24 cbi   :   1 cbr   :   0 
 clc   :   0 clh   :   0 cli   :   0 cln   :   0 clr   :   0 cls   :   0 
 clt   :   0 clv   :   0 clz   :   0 com   :   0 cp    :   0 cpc   :   0 
-cpi   :   2 cpse  :   0 dec   :   1 eor   :   0 fmul  :   0 fmuls :   0 
+cpi   :   2 cpse  :   0 dec   :   2 eor   :   0 fmul  :   0 fmuls :   0 
 fmulsu:   0 icall :   0 ijmp  :   0 in    :   0 inc   :   0 jmp   :   1 
-ld    :   0 ldd   :   0 ldi   :  14 lds   :   0 lpm   :   4 lsl   :   1 
+ld    :   0 ldd   :   0 ldi   :  17 lds   :   0 lpm   :   4 lsl   :   1 
 lsr   :   0 mov   :   2 movw  :   0 mul   :   0 muls  :   0 mulsu :   0 
 neg   :   0 nop   :   0 or    :   0 ori   :   0 out   :   5 pop   :   0 
-push  :   0 rcall :   0 ret   :   6 reti  :   0 rjmp  :   1 rol   :   0 
-ror   :   0 sbc   :   0 sbci  :   0 sbi   :   0 sbic  :   0 sbis  :   0 
-sbiw  :   0 sbr   :   0 sbrc  :   0 sbrs  :   0 sec   :   0 seh   :   0 
+push  :   0 rcall :   0 ret   :   8 reti  :   0 rjmp  :   1 rol   :   0 
+ror   :   0 sbc   :   0 sbci  :   0 sbi   :   1 sbic  :   0 sbis  :   0 
+sbiw  :   1 sbr   :   0 sbrc  :   0 sbrs  :   0 sec   :   0 seh   :   0 
 sei   :   0 sen   :   0 ser   :   0 ses   :   0 set   :   0 sev   :   0 
 sez   :   0 sleep :   0 spm   :   0 st    :   0 std   :   0 sts   :   0 
 sub   :   1 subi  :   3 swap  :   0 tst   :   0 wdr   :   0 
-Instructions used: 19 out of 113 (16.8%)
+Instructions used: 22 out of 113 (19.5%)
 
 "ATmega16A" memory use summary [bytes]:
 Segment   Begin    End      Code   Data   Used    Size   Use%
 ---------------------------------------------------------------
-[.cseg] 0x000000 0x000252    178     38    216   16384   1.3%
+[.cseg] 0x000000 0x000256    216     42    258   16384   1.6%
 [.dseg] 0x000060 0x000060      0      0      0    1024   0.0%
 [.eseg] 0x000000 0x000000      0      0      0     512   0.0%
 

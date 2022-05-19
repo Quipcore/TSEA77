@@ -157,8 +157,6 @@ WARM:
 	; --- Uses r16
 	; ---------------------------------------
 RANDOM: ; Last subroutine
-	//pop		r0
-	//pop		r0
 	in		r16,SPH
 	mov		ZH,r16
 	in		r16,SPL
@@ -171,7 +169,8 @@ RANDOM: ; Last subroutine
 	andi	r16,0b00000111
 	cpi		r16,4
 	brmi	CON1_RANDOM
-	subi	r16,1
+	subi	r16,4
+	std		Z+3,r16 ; Store xpos(r16) to stack
 
 CON1_RANDOM:
 	
@@ -183,10 +182,8 @@ CON1_RANDOM:
 	cpi		r17,4
 	brmi	CON2_RANDOM
 	subi	r17,4
-
+	std		Z+4,r17
 CON2_RANDOM:
-	push	r17 ; y
-	push	r16 ; x
 	ret
 
 

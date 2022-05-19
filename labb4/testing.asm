@@ -54,7 +54,7 @@ START:
 	out     SPL,r16	
 	
  main:
-	push	r0
+ 	push	r0
 	push	r0
 
 	call	RANDOM		; RANDOM returns x,y on stack
@@ -62,19 +62,24 @@ START:
 	pop		r16 ; x
 	pop		r17 ; y
 
+	mov		r19,r16
+	mov		r20,r17
+
 	jmp main
 RANDOM: ; Last subroutine
-	pop		r0
-	pop		r0
+	//push r16
 
 	in		r16,SPH
 	mov		ZH,r16
 	in		r16,SPL
 	mov		ZL,r16
 
+	ldi		r16,$A0
+	std		Z+3,r16
 
-	nop
-	nop
+	ldi		r16,$FF
+    std		Z+4, r16        ; store POSY to stack
+	
+	//pop		r16
 
-	push	r17 ; y
-	push	r16 ; x
+	ret
