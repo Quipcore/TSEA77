@@ -170,7 +170,7 @@ RANDOM: ; Last subroutine
 	cpi		r16,4
 	brmi	CON1_RANDOM
 	subi	r16,4
-	std		Z+3,r16 ; Store xpos(r16) to stack
+
 
 CON1_RANDOM:
 	
@@ -182,8 +182,10 @@ CON1_RANDOM:
 	cpi		r17,4
 	brmi	CON2_RANDOM
 	subi	r17,4
-	std		Z+4,r17
+
 CON2_RANDOM:
+	std		Z+3,r16 ; Store xpos(r16) to stack
+	std		Z+4,r17
 	ret
 
 
@@ -273,10 +275,10 @@ ADC10_CONVERT:
 	out		ADCSRA,r16 ; starta omvandling
 ADC10_WAIT:
 	in		r16,ADCSRA
-	sbrc	r16,ADSC ; om 0-st‰lld, klar
-	rjmp	ADC10_WAIT ; annars v‰nta
-	//in		r16,ADCL ; obs, l‰s lÂg byte fˆrst
-	in		r16,ADCH ; hˆg byte sedan
+	sbrc	r16,ADSC ; om 0-st√§lld, klar
+	rjmp	ADC10_WAIT ; annars v√§nta
+	//in		r16,ADCL ; obs, l√§s l√•g byte f√∂rst
+	in		r16,ADCH ; h√∂g byte sedan
 	ret
 
 	; ---------------------------------------
