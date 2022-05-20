@@ -411,11 +411,15 @@ MUX:
 	ldi		r16,0
 	adc		XH,r16
 
-	ld		r16,X
+	ldi		r16,0
 	out		PORTB,r16
+
 	lds		r16,LINE
 	swap	r16
 	out		PORTD,r16
+
+	ld		r16,X
+	out		PORTB,r16
 
 	INCSRAM SEED
 	INCSRAM LINE
